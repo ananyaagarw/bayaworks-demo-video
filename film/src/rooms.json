@@ -1,0 +1,422 @@
+[
+  {
+    "id": "R-201",
+    "number": "201",
+    "name": "OFFICE 201",
+    "department": "Administration",
+    "boundary": [
+      [
+        0,
+        0
+      ],
+      [
+        5,
+        0
+      ],
+      [
+        5,
+        9
+      ],
+      [
+        0,
+        9
+      ]
+    ],
+    "classification": {
+      "tag": "office",
+      "evidence": "Room name \"OFFICE 201\" contains \"OFFICE\"."
+    }
+  },
+  {
+    "id": "R-202",
+    "number": "202",
+    "name": "OFFICE 202",
+    "department": "Administration",
+    "boundary": [
+      [
+        5,
+        0
+      ],
+      [
+        10,
+        0
+      ],
+      [
+        10,
+        9
+      ],
+      [
+        5,
+        9
+      ]
+    ],
+    "classification": {
+      "tag": "office",
+      "evidence": "Room name \"OFFICE 202\" contains \"OFFICE\"."
+    }
+  },
+  {
+    "id": "R-204",
+    "number": "204",
+    "name": "CONF 02",
+    "department": "Administration",
+    "boundary": [
+      [
+        10,
+        0
+      ],
+      [
+        17,
+        0
+      ],
+      [
+        17,
+        9
+      ],
+      [
+        10,
+        9
+      ]
+    ],
+    "classification": {
+      "tag": "meeting_room",
+      "evidence": "Room name \"CONF 02\" contains \"CONF\"."
+    }
+  },
+  {
+    "id": "R-212",
+    "number": "212",
+    "name": "HUDDLE 1",
+    "department": "Studio",
+    "boundary": [
+      [
+        17,
+        0
+      ],
+      [
+        21,
+        0
+      ],
+      [
+        21,
+        9
+      ],
+      [
+        17,
+        9
+      ]
+    ],
+    "classification": {
+      "tag": "meeting_room",
+      "evidence": "Room name \"HUDDLE 1\" contains \"HUDDLE\"."
+    }
+  },
+  {
+    "id": "R-203",
+    "number": "203",
+    "name": "OPEN PLAN WORKSPACE",
+    "department": "Studio",
+    "boundary": [
+      [
+        21,
+        0
+      ],
+      [
+        42,
+        0
+      ],
+      [
+        42,
+        9
+      ],
+      [
+        21,
+        9
+      ]
+    ],
+    "classification": {
+      "tag": "open_office",
+      "evidence": "Room name \"OPEN PLAN WORKSPACE\" contains \"OPEN PLAN\"."
+    }
+  },
+  {
+    "id": "R-208",
+    "number": "208",
+    "name": "CORR 2-01",
+    "department": "",
+    "boundary": [
+      [
+        0,
+        9
+      ],
+      [
+        42,
+        9
+      ],
+      [
+        42,
+        11
+      ],
+      [
+        0,
+        11
+      ]
+    ],
+    "classification": {
+      "tag": "corridor",
+      "evidence": "Room name \"CORR 2-01\" contains \"CORR\"."
+    }
+  },
+  {
+    "id": "R-205",
+    "number": "205",
+    "name": "BREAK RM",
+    "department": "Amenity",
+    "boundary": [
+      [
+        0,
+        11
+      ],
+      [
+        8,
+        11
+      ],
+      [
+        8,
+        19
+      ],
+      [
+        0,
+        19
+      ]
+    ],
+    "classification": {
+      "tag": "break_room",
+      "evidence": "Room name \"BREAK RM\" contains \"BREAK\"."
+    }
+  },
+  {
+    "id": "R-211",
+    "number": "211",
+    "name": "SPACE 211",
+    "department": "",
+    "boundary": [
+      [
+        0,
+        19
+      ],
+      [
+        8,
+        19
+      ],
+      [
+        8,
+        22
+      ],
+      [
+        0,
+        22
+      ]
+    ],
+    "classification": {
+      "tag": "unknown",
+      "evidence": "No permitted room type matches \"SPACE 211\"."
+    }
+  },
+  {
+    "id": "R-206",
+    "number": "206",
+    "name": "WC - M",
+    "department": "Amenity",
+    "boundary": [
+      [
+        8,
+        11
+      ],
+      [
+        12,
+        11
+      ],
+      [
+        12,
+        17
+      ],
+      [
+        8,
+        17
+      ]
+    ],
+    "classification": {
+      "tag": "restroom",
+      "evidence": "Room name \"WC - M\" contains \"WC\"."
+    }
+  },
+  {
+    "id": "R-207",
+    "number": "207",
+    "name": "WC - F",
+    "department": "Amenity",
+    "boundary": [
+      [
+        8,
+        17
+      ],
+      [
+        12,
+        17
+      ],
+      [
+        12,
+        22
+      ],
+      [
+        8,
+        22
+      ]
+    ],
+    "classification": {
+      "tag": "restroom",
+      "evidence": "Room name \"WC - F\" contains \"WC\"."
+    }
+  },
+  {
+    "id": "R-209",
+    "number": "209",
+    "name": "ELEC 2",
+    "department": "Building services",
+    "boundary": [
+      [
+        12,
+        11
+      ],
+      [
+        15,
+        11
+      ],
+      [
+        15,
+        15
+      ],
+      [
+        12,
+        15
+      ]
+    ],
+    "classification": {
+      "tag": "electrical_room",
+      "evidence": "Room name \"ELEC 2\" contains \"ELEC\"."
+    }
+  },
+  {
+    "id": "R-213",
+    "number": "213",
+    "name": "IT/COMMS",
+    "department": "Building services",
+    "boundary": [
+      [
+        12,
+        15
+      ],
+      [
+        15,
+        15
+      ],
+      [
+        15,
+        19
+      ],
+      [
+        12,
+        19
+      ]
+    ],
+    "classification": {
+      "tag": "telecom_room",
+      "evidence": "Room name \"IT/COMMS\" contains \"IT\"."
+    }
+  },
+  {
+    "id": "R-210",
+    "number": "210",
+    "name": "STOR",
+    "department": "Building services",
+    "boundary": [
+      [
+        12,
+        19
+      ],
+      [
+        15,
+        19
+      ],
+      [
+        15,
+        22
+      ],
+      [
+        12,
+        22
+      ]
+    ],
+    "classification": {
+      "tag": "storage",
+      "evidence": "Room name \"STOR\" contains \"STOR\"."
+    }
+  },
+  {
+    "id": "R-214",
+    "number": "214",
+    "name": "OFFICE 214",
+    "department": "Studio",
+    "boundary": [
+      [
+        15,
+        11
+      ],
+      [
+        20,
+        11
+      ],
+      [
+        20,
+        22
+      ],
+      [
+        15,
+        22
+      ]
+    ],
+    "classification": {
+      "tag": "office",
+      "evidence": "Room name \"OFFICE 214\" contains \"OFFICE\"."
+    }
+  },
+  {
+    "id": "R-215",
+    "number": "215",
+    "name": "OPEN PLAN SOUTH",
+    "department": "Studio",
+    "boundary": [
+      [
+        20,
+        11
+      ],
+      [
+        42,
+        11
+      ],
+      [
+        42,
+        22
+      ],
+      [
+        20,
+        22
+      ]
+    ],
+    "classification": {
+      "tag": "open_office",
+      "evidence": "Room name \"OPEN PLAN SOUTH\" contains \"OPEN PLAN\"."
+    }
+  }
+]

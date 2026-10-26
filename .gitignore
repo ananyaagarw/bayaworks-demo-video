@@ -1,0 +1,9 @@
+film/node_modules/
+film/.remotion/
+film/build/
+renders/
+*.log
+.DS_Store
+
+# Locally installed official agent skills; source pinned in skills-lock.json
+.agents/
