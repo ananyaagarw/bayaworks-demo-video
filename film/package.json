@@ -8,7 +8,13 @@
     "render": "node scripts/render.mjs",
     "stills": "node scripts/stills.mjs",
     "contact-sheet": "ffmpeg -y -hide_banner -loglevel error -pattern_type glob -i '../renders/0*.png' -vf 'scale=640:360,tile=2x3:padding=12:margin=12:color=0x100C0A' -frames:v 1 ../renders/contact-sheet.jpg",
-    "verify-export": "node scripts/verify.mjs"
+    "verify-export": "node scripts/verify.mjs",
+    "sound:v2": "python3 scripts/revision-sound.py",
+    "render:customer": "node scripts/render.mjs CustomerWorkflow baya-customer-workflow-v2",
+    "render:animatic": "node scripts/render.mjs FullAnimatic baya-full-animatic-v2",
+    "stills:v2": "node scripts/revision-stills.mjs",
+    "contact-sheet:v2": "ffmpeg -y -hide_banner -loglevel error -pattern_type glob -i '../renders/v2/0[1-6]*.png' -vf 'scale=640:360,tile=2x3:padding=12:margin=12:color=0x100C0A' -frames:v 1 ../renders/customer-contact-sheet-v2.jpg",
+    "verify:v2": "node scripts/verify-revision.mjs"
   },
   "dependencies": {
     "@remotion/bundler": "4.0.538",

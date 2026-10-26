@@ -7,3 +7,7 @@ renders/
 
 # Locally installed official agent skills; source pinned in skills-lock.json
 .agents/
+
+# Reproducible revision audio
+film/public/sound/customer-workflow.wav
+film/public/sound/full-animatic.wav

@@ -1,0 +1,15 @@
+import React from 'react';
+import {Easing, Img, interpolate, staticFile} from 'remotion';
+import {loadFont} from '@remotion/fonts';
+export const C={bg:'#100C0A',panel:'#19120F',sand:'#EDE9DF',green:'#B8D6A1',sage:'#3E6B4E',muted:'#A7A99C',line:'rgba(237,233,223,.14)'};
+loadFont({family:'Inter',url:staticFile('brand/inter-400.woff2'),weight:'400'});
+loadFont({family:'Inter',url:staticFile('brand/inter-500.woff2'),weight:'500'});
+export const progress=(t:number,a:number,b:number)=>interpolate(t,[a,b],[0,1],{extrapolateLeft:'clamp',extrapolateRight:'clamp',easing:Easing.bezier(.22,1,.36,1)});
+export const typed=(text:string,t:number,a:number,b:number)=>text.slice(0,Math.floor(text.length*Math.max(0,Math.min(1,(t-a)/(b-a)))));
+export const PROJECT='Office floor · Level 02';
+export const FILES=[{name:'Office-level-02.ifc',label:'Architectural model',ext:'IFC'},{name:'Floor-plans.pdf',label:'Architectural drawings',ext:'PDF'},{name:'Design-brief.pdf',label:'Project requirements',ext:'PDF'},{name:'Specifications.pdf',label:'Design specifications',ext:'PDF'}];
+export const Logo:React.FC<{width?:number}>=({width=148})=><Img src={staticFile('brand/bayaworks-mark.png')} style={{width,height:width*110/271,objectFit:'contain',filter:'hue-rotate(38deg) saturate(.3) brightness(.92)'}}/>;
+export const Arrow=()=> <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M12 20V4m-6 6 6-6 6 6"/></svg>;
+export const Frame:React.FC<{children:React.ReactNode}>=({children})=><div style={{width:1920,height:1080,position:'relative',background:C.bg,fontFamily:'Inter',color:C.sand,overflow:'hidden'}}>{children}</div>;
+export const Turn:React.FC<{who:string;text:string;t:number;at:number;width?:number}>=({who,text,t,at,width=800})=><div style={{width,opacity:progress(t,at,at+.45),translate:`0 ${12*(1-progress(t,at,at+.6))}px`}}><div style={{fontSize:16,letterSpacing:2,color:who==='YOU'?C.muted:C.green,marginBottom:15}}>{who}</div><div style={{fontSize:33,lineHeight:1.4,letterSpacing:-.65}}>{text}</div></div>;
+export const Pointer:React.FC<{x:number;y:number;click:number;opacity?:number}>=({x,y,click,opacity=1})=><div style={{position:'absolute',left:x,top:y,opacity,scale:1-.15*Math.sin(click*Math.PI)}}><div style={{position:'absolute',left:-18,top:-18,width:42,height:42,border:`1px solid ${C.green}`,borderRadius:'50%',opacity:Math.sin(click*Math.PI)}}/><svg width="30" height="40" viewBox="0 0 30 40"><path d="M2 2v29l8-8 7 13 5-3-7-12h12Z" fill={C.sand} stroke={C.bg} strokeWidth="2"/></svg></div>;
