@@ -12,7 +12,7 @@ const EngineeringScene:React.FC<{inside?:boolean}>=({inside=false})=>{const t=Lo
  <div style={{position:'absolute',left:700,top:240,width:1100,height:650,transform:`perspective(1700px) rotateX(${24-12*progress(t,0,10)}deg) rotateZ(${-12+8*progress(t,0,10)}deg)`}}><EngineeringCanvas time={t} mode={t>7?'light':'design'}/></div>
  </Frame>};
 const CustomerSection=()=>{const t=LocalTime();const mapped=interpolate(t,[0,10,26,41],[0,9,18.5,30],{extrapolateRight:'clamp'});return <CustomerExperience time={mapped}/>;};
-export const StudioScene:React.FC<{time?:number;hideConversation?:boolean;hideCanvas?:boolean}>=({time,hideConversation=false,hideCanvas=false})=>{const local=LocalTime();const t=time??local;const lighting=t<15;const instruction=lighting?'Move the meeting room lights away from the projector zone and recalculate.':'Add outlets along the workstation wall and update the circuit layout.';return <Frame>
+export const StudioScene:React.FC<{time?:number;hideConversation?:boolean;hideCanvas?:boolean;refineEdits?:boolean}>=({time,hideConversation=false,hideCanvas=false,refineEdits=false})=>{const local=LocalTime();const t=time??local;const lighting=t<15;const instruction=lighting?'Move the meeting room lights away from the projector zone and recalculate.':'Add outlets along the workstation wall and update the circuit layout.';return <Frame>
  <div style={{position:'absolute',inset:65,border:`1px solid ${C.line}`,borderRadius:28,padding:36,background:C.panel}}>
  <div style={{display:'flex',gap:35,alignItems:'center'}}><Logo width={140}/><span style={{fontSize:28}}>Baya Studio</span><span style={{marginLeft:'auto',color:C.muted,fontSize:22}}>{PROJECT}</span></div>
  <div style={{position:'absolute',left:50,top:160,width:605,opacity:hideConversation?0:1}}>
@@ -21,7 +21,7 @@ export const StudioScene:React.FC<{time?:number;hideConversation?:boolean;hideCa
  <div style={{marginTop:45}}><Turn who="BAYA" text={lighting?(t<10?'Moving the selected fixtures. The affected lighting study needs updating.':'Layout updated. The lighting study is ready to review.'):'Outlets added. The circuit layout is updated.'} t={lighting?t:t-15} at={5.5} width={570}/></div>
  <div style={{marginTop:45,borderTop:`1px solid ${C.line}`,paddingTop:22,color:C.green,fontSize:24,opacity:progress(lighting?t:t-15,7,8)}}>{lighting?'Meeting room · Lighting':'Workstation wall · Electrical'}</div>
  </div>
- <div style={{position:'absolute',right:45,top:225,width:1035,height:605,opacity:hideCanvas?0:1}}><EngineeringCanvas time={12} mode={t>10?'light':'design'} edit={progress(t,6,9)} electricalEdit={progress(t,21,24)}/></div>
+ <div style={{position:'absolute',right:45,top:225,width:1035,height:605,opacity:hideCanvas?0:1}}><EngineeringCanvas time={12} mode={t>10?'light':'design'} edit={progress(t,6,9)} electricalEdit={progress(t,21,24)} refineEdits={refineEdits}/></div>
  </div>
  </Frame>};
 const DeliveryScene=()=>{const t=LocalTime();return <Frame>

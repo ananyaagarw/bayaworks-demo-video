@@ -1,6 +1,31 @@
 # Baya — cinematic product demo
 
-## Current: v3 / connected 120-second demo
+## Current: v4 / editorial product film
+
+The 120-second v4 uses direct chapter cuts, selected fixed close-ups, preserved Works/Studio interactions, a retained package shelf during download, and a restrained logo/tagline hold. The actual uploaded Endra film and Baya v3 were inspected before implementing the edit; no Endra assets were imported.
+
+- [Actual-footage timestamped comparison](docs/reference-edit-comparison-v4.md)
+- [V3 → V4 transition comparison and complete edit](docs/transitions-v4.md)
+- [V4 quality review](docs/quality-review-v4.md)
+
+```sh
+cd film
+npm ci
+npm run typecheck
+npm run sound:v4
+npm run stills:v4
+npm run render:v4       # ../renders/baya-full-animatic-v4.mp4
+npm run review:v4       # contact sheets from the actual MP4; before/at/after every cut
+npm run verify:v4       # metadata, full decoding, encoded audio and cut-selection audit
+```
+
+Requirements remain Node 24, Python 3, installed Chromium/Chrome and FFmpeg; review labels also use the system DejaVu font (`fonts-dejavu-core`). No Python third-party package is needed by the reproducible review scripts. All production typography remains local Inter; DejaVu is only a review-sheet annotation font.
+
+Manual cloud workflow: **Render Baya demo v4** → artifact `baya-full-demo-v4-1080p`. Current cloud rendering and actual-frame review are validated separately from a GitHub Actions execution. Generated audio, media and contact sheets are ignored and reproducible.
+
+## Previous versions
+
+## V3 / connected 120-second demo
 
 V3 preserves the approved Works and Studio interactions and connects them through spatial handoffs. It adds the actual website headline, a seven-second Works-to-Studio explanation, a coordinated package shelf with drawing/model/workbook previews, a ZIP download completion sequence, and a drawing-line-to-logo ending. The duplicate middle engineering animation is removed.
 

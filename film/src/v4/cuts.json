@@ -1,0 +1,90 @@
+[
+  {
+    "at": 12,
+    "name": "Opening \u2192 Works chapter"
+  },
+  {
+    "at": 16,
+    "name": "Works chapter \u2192 product wide"
+  },
+  {
+    "at": 20,
+    "name": "Works wide \u2192 brief close-up"
+  },
+  {
+    "at": 24,
+    "name": "Typed brief \u2192 submitted conversation"
+  },
+  {
+    "at": 26,
+    "name": "Brief \u2192 attachment close-up"
+  },
+  {
+    "at": 33,
+    "name": "Attachments \u2192 interpretation wide"
+  },
+  {
+    "at": 42,
+    "name": "Interpretation \u2192 question close-up"
+  },
+  {
+    "at": 50,
+    "name": "Answer \u2192 acknowledgement wide"
+  },
+  {
+    "at": 57,
+    "name": "Completed customer exchange \u2192 Studio chapter"
+  },
+  {
+    "at": 62,
+    "name": "Studio chapter \u2192 Studio wide"
+  },
+  {
+    "at": 65,
+    "name": "Studio \u2192 lighting instruction close-up"
+  },
+  {
+    "at": 68.5,
+    "name": "Instruction \u2192 meeting-room result"
+  },
+  {
+    "at": 75,
+    "name": "Lighting result \u2192 Studio wide"
+  },
+  {
+    "at": 79,
+    "name": "Studio \u2192 electrical instruction close-up"
+  },
+  {
+    "at": 84,
+    "name": "Instruction \u2192 outlet and circuit result"
+  },
+  {
+    "at": 89,
+    "name": "Electrical result \u2192 Studio wide"
+  },
+  {
+    "at": 92,
+    "name": "Final Studio response \u2192 delivery chapter"
+  },
+  {
+    "at": 94,
+    "name": "Delivery chapter \u2192 Designs Ready wide"
+  },
+  {
+    "at": 98,
+    "name": "Designs Ready \u2192 package detail"
+  },
+  {
+    "at": 103,
+    "name": "Package detail \u2192 download close-up"
+  },
+  {
+    "at": 109,
+    "name": "Download confirmation \u2192 delivery wide"
+  },
+  {
+    "at": 112,
+    "name": "Completed download \u2192 brand hold"
+  }
+]

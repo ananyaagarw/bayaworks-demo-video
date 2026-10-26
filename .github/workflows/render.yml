@@ -1,4 +1,4 @@
-name: Render Baya demo v3
+name: Render Baya demo v4
 on:
   workflow_dispatch:
 permissions:
@@ -23,21 +23,21 @@ jobs:
         run: |
           test -x "$REMOTION_BROWSER_EXECUTABLE"
           npm ci --no-audit --no-fund
+      - name: Install artifact tools
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg fonts-dejavu-core
       - name: Typecheck and render
         run: |
           npm run typecheck
-          npm run sound:v3
-          npm run render:v3
-          npm run stills:v3
-      - name: Install artifact tools
-        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+          npm run sound:v4
+          npm run render:v4
+          npm run stills:v4
       - name: Assemble contact sheet and inspect export
         run: |
-          npm run contact-sheet:v3
-          npm run verify:v3
+          npm run review:v4
+          npm run verify:v4
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: baya-full-demo-v3-1080p
+          name: baya-full-demo-v4-1080p
           path: renders/
           retention-days: 30
           if-no-files-found: error

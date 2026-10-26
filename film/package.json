@@ -19,7 +19,12 @@
     "render:v3": "node scripts/render.mjs FullDemoV3 baya-full-animatic-v3",
     "stills:v3": "node scripts/v3-stills.mjs",
     "contact-sheet:v3": "ffmpeg -y -hide_banner -loglevel error -pattern_type glob -i '../renders/v3/[0-9]*.png' -vf 'scale=640:360,tile=3x4:padding=12:margin=12:color=0x100C0A' -frames:v 1 ../renders/contact-sheet-v3.jpg",
-    "verify:v3": "node scripts/verify-v3.mjs"
+    "verify:v3": "node scripts/verify-v3.mjs",
+    "sound:v4": "python3 scripts/v4-sound.py",
+    "render:v4": "node scripts/render.mjs FullDemoV4 baya-full-animatic-v4",
+    "stills:v4": "node scripts/v4-stills.mjs",
+    "review:v4": "python3 scripts/v4-cut-review.py",
+    "verify:v4": "node scripts/verify-v4.mjs"
   },
   "dependencies": {
     "@remotion/bundler": "4.0.538",

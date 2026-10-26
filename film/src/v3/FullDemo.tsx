@@ -47,7 +47,7 @@ export const StudioToDelivery:React.FC=()=>{
  {[0,1,2].map(i=><div key={i} style={{position:'absolute',left:800+i*185,top:430+i*24,width:310,height:220,border:`1px solid ${C.green}`,borderRadius:14,background:C.panel,opacity:progress(t,2+i*.25,3+i*.25)*(1-progress(t,4.4,5.7)),transform:`translate(${(i-1)*p*55}px,${-p*75}px) rotate(${(i-1)*5}deg)`}}><div style={{height:150,padding:14}}><EngineeringCanvas time={15} mode={i===1?'light':'design'} edit={1} electricalEdit={1} discipline={i===1?'lighting':'electrical'}/></div><div style={{fontSize:19,paddingLeft:20,color:C.green}}>{['Electrical layout','Lighting layout','Engineering package'][i]}</div></div>)}
  </Frame>;
 };
-export const Delivery:React.FC<{time?:number;hideCopy?:boolean}>=({time,hideCopy=false})=>{
+export const Delivery:React.FC<{time?:number;hideCopy?:boolean;retainPackage?:boolean;refineEdits?:boolean}>=({time,hideCopy=false,retainPackage=false,refineEdits=false})=>{
  const local=useTime();const t=time??local;const clicked=t>=9.3;const complete=t>=14.5;
  return <Frame>
  <div style={{position:'absolute',left:95,top:70,right:95,display:'flex',gap:38,alignItems:'center'}}><Logo width={148}/><span style={{fontSize:28}}>Baya Works</span><span style={{marginLeft:'auto',fontSize:24,color:C.muted}}>{PROJECT}</span></div>
@@ -58,9 +58,9 @@ export const Delivery:React.FC<{time?:number;hideCopy?:boolean}>=({time,hideCopy
  <div style={{position:'relative',display:'inline-flex',alignItems:'center',justifyContent:'center',height:85,width:455,fontSize:25,color:C.bg,background:C.green,borderRadius:45,marginTop:70,scale:1-.025*Math.sin(progress(t,9,9.5)*Math.PI)}}>
  {complete?<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.7" style={{marginRight:12}}><path d="m4 12 5 5L20 6"/></svg>:<span style={{marginRight:12}}>↓</span>}{complete?'Design package downloaded':clicked?'Preparing your package…':'Download Design Package'}
  </div>
- <div style={{marginTop:25,fontSize:20,color:C.muted,opacity:progress(t,14.5,15.3)}}>Your review files, together.</div>
+ {!retainPackage?<div style={{marginTop:25,fontSize:20,color:C.muted,opacity:progress(t,14.5,15.3)}}>Your review files, together.</div>:<div style={{position:'absolute',left:0,top:460}}><DownloadArchive time={t} compact/></div>}
  </div>
- <div style={{position:'absolute',left:690,top:230}}><PackagePreview time={t}/><DownloadArchive time={t}/></div>
+ <div style={{position:'absolute',left:690,top:230}}><PackagePreview time={t} retainCards={retainPackage} refineEdits={refineEdits}/>{!retainPackage?<DownloadArchive time={t}/>:null}</div>
  {t>8&&t<10?<Pointer x={450-65*progress(t,8,9)} y={710-72*progress(t,8,9)} click={progress(t,9,9.5)} opacity={1-progress(t,9.5,10)}/>:null}
  </Frame>;
 };
