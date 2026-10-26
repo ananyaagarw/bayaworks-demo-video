@@ -1,0 +1,13 @@
+import {execFile} from 'node:child_process';
+import {promisify} from 'node:util';
+import assert from 'node:assert/strict';
+import {readFileSync,writeFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+const run=promisify(execFile);
+const file='../renders/baya-full-animatic-v3.mp4';
+const probe=JSON.parse((await run('ffprobe',['-v','error','-show_streams','-show_format','-of','json',file])).stdout);
+const video=probe.streams.find(s=>s.codec_type==='video'),audio=probe.streams.find(s=>s.codec_type==='audio');
+assert.equal(video.codec_name,'h264');assert.equal(video.width,1920);assert.equal(video.height,1080);assert.equal(video.r_frame_rate,'24/1');assert.equal(Number(video.nb_frames),2880);assert.equal(audio.codec_name,'aac');assert.ok(Math.abs(Number(probe.format.duration)-120)<.1);
+await run('ffmpeg',['-v','error','-i',file,'-f','null','-']);
+const result={file,width:video.width,height:video.height,frames:video.nb_frames,fps:video.r_frame_rate,audio:audio.codec_name,duration:probe.format.duration,bytes:probe.format.size,fullDecode:'passed',sha256:createHash('sha256').update(readFileSync(file)).digest('hex')};
+writeFileSync('../renders/verification-v3.json',JSON.stringify(result,null,2)+'\n');console.log('PASS',JSON.stringify(result));

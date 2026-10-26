@@ -5,7 +5,7 @@ import {Arrow,C,FILES,Frame,Logo,Pointer,PROJECT,progress,Turn,typed} from './sy
 import {EngineeringCanvas} from './EngineeringCanvas';
 const scope='Electrical and lighting design for a new office floor.';
 const standard='Use our company standards.';
-export const CustomerExperience:React.FC<{time:number}>=({time:t})=>{
+export const CustomerExperience:React.FC<{time:number;hideWelcome?:boolean;hideContent?:boolean}>=({time:t,hideWelcome=false,hideContent=false})=>{
  const entered=t>=2.25;const upload=t>=9;const processing=t>=13.2;const questions=t>=18.5;
  const draft=t>=4&&t<7?typed(scope,t,4,6.65):t>=22&&t<24.6?typed(standard,t,22,24.4):'';
  return <Frame>
@@ -17,8 +17,8 @@ export const CustomerExperience:React.FC<{time:number}>=({time:t})=>{
  {entered?<div style={{borderLeft:`2px solid ${C.green}`,paddingLeft:15,fontSize:22,lineHeight:1.55}}>Office floor<span style={{display:'block',color:C.muted,fontSize:18}}>Level 02</span></div>:<div style={{fontSize:19,color:C.muted,lineHeight:1.6}}>Your next project starts here.</div>}
  <div style={{position:'absolute',left:32,bottom:35,fontSize:18,color:C.muted}}>Firm Playbook</div>
  </aside>
- <main style={{position:'absolute',left:310,top:155,right:45,bottom:45}}>
- {!entered?<div style={{position:'absolute',top:180,left:90,opacity:1-progress(t,1.8,2.25)}}><div style={{fontSize:66,letterSpacing:-3,lineHeight:1.08}}>What will we<br/><span style={{color:C.green}}>design next?</span></div><div style={{fontSize:27,color:C.muted,marginTop:28}}>Bring your drawings. Start a conversation.</div></div>:null}
+ <main style={{position:'absolute',left:310,top:155,right:45,bottom:45,opacity:hideContent?0:1}}>
+ {!entered&&!hideWelcome?<div style={{position:'absolute',top:180,left:90,opacity:1-progress(t,1.8,2.25)}}><div style={{fontSize:66,letterSpacing:-3,lineHeight:1.08}}>What will we<br/><span style={{color:C.green}}>design next?</span></div><div style={{fontSize:27,color:C.muted,marginTop:28}}>Bring your drawings. Start a conversation.</div></div>:null}
  {entered?<>
  <div style={{opacity:progress(t,2.25,2.8)}}><div style={{fontSize:18,color:C.green,letterSpacing:2,marginBottom:12}}>{upload?'ELECTRICAL + LIGHTING':'NEW PROJECT'}</div><h1 style={{fontSize:43,fontWeight:400,letterSpacing:-1.9,margin:0}}>{upload?PROJECT:'Let’s build your next project.'}</h1></div>
  <div style={{position:'absolute',top:140,left:0,width:850}}>
@@ -44,7 +44,7 @@ export const CustomerExperience:React.FC<{time:number}>=({time:t})=>{
  </div>
  </>:null}
  </main>
- {t<2.25?<Pointer x={interpolatePointer(t,600,145)} y={interpolatePointer(t,500,201)} click={Math.max(0,Math.min(1,(t-1.35)/.5))}/>:null}
+ {t<2.25&&!hideWelcome?<Pointer x={interpolatePointer(t,600,145)} y={interpolatePointer(t,500,201)} click={Math.max(0,Math.min(1,(t-1.35)/.5))}/>:null}
  </div>
  </Frame>;
 };

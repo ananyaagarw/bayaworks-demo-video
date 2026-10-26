@@ -1,6 +1,31 @@
 # Baya — cinematic product demo
 
-**Current revision:** a polished **30-second Baya Works customer journey** and a rough **120-second full-sequence animatic**. The product interaction is now the story: New Project → typed brief → document upload → project interpretation → clarifying question → company-standards response. The animatic continues into combined electrical/lighting design, conversational Studio edits and a review-package download for the same office floor.
+## Current: v3 / connected 120-second demo
+
+V3 preserves the approved Works and Studio interactions and connects them through spatial handoffs. It adds the actual website headline, a seven-second Works-to-Studio explanation, a coordinated package shelf with drawing/model/workbook previews, a ZIP download completion sequence, and a drawing-line-to-logo ending. The duplicate middle engineering animation is removed.
+
+- [V3 shot-by-shot timeline and copy](docs/timeline-v3.md)
+- [Private export/roadmap evidence](docs/internal/delivery-evidence-v3.md)
+- [V3 render validation](docs/validation-v3.md)
+
+```sh
+cd film
+npm ci
+npm run typecheck
+npm run sound:v3
+npm run render:v3          # ../renders/baya-full-animatic-v3.mp4; 1080p, 24 fps, 120 seconds
+npm run stills:v3
+npm run contact-sheet:v3
+npm run verify:v3
+```
+
+Manual GitHub Actions: **Render Baya demo v3** → artifact `baya-full-demo-v3-1080p`. The same scripts render in the attached cloud machine; GitHub Actions execution is separate. Current output files are ignored to keep binary history out of source control.
+
+The richer package includes PDF/XLSX review outputs and visibly planned DWG/RVT/IFC formats. Planned BIM exports remain separate during the review-file download. Product evidence lives in private production documentation; the film makes no professional issue or verified native-Revit-export claim.
+
+## Previous: v2
+
+**Previous revision:** a polished **30-second Baya Works customer journey** and a rough **120-second full-sequence animatic**. The product interaction is now the story: New Project → typed brief → document upload → project interpretation → clarifying question → company-standards response. The animatic continues into combined electrical/lighting design, conversational Studio edits and a review-package download for the same office floor.
 
 - [Revised storyboard, on-screen copy and proposed narration](docs/storyboard-v2.md)
 - [Creative revision / reproduction instructions](docs/creative-revision-v2.md)

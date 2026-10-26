@@ -11,3 +11,6 @@ renders/
 # Reproducible revision audio
 film/public/sound/customer-workflow.wav
 film/public/sound/full-animatic.wav
+
+film/public/sound/full-v3.wav
+film/scripts/__pycache__/
