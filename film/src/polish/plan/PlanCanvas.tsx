@@ -51,7 +51,7 @@ export type PlanState = {
 	dim?: number; // de-emphasise everything except the active edit
 };
 
-const VIEW = {x: -78, y: -78, w: W * K + 110, h: H * K + 104};
+export const VIEW = {x: -78, y: -78, w: W * K + 110, h: H * K + 104};
 export const PLAN_VIEWBOX = `${VIEW.x} ${VIEW.y} ${VIEW.w} ${VIEW.h}`;
 export const PLAN_ASPECT = VIEW.w / VIEW.h;
 
@@ -205,7 +205,7 @@ export const PlanCanvas: React.FC<{
 
 			{/* Lighting study: banded field + isolines, revealed by the calculation sweep */}
 			{s.lit > 0 ? (
-				<g mask={`url(#${id}-litmask)`}>
+				<g mask={`url(#${id}-litmask)`} opacity={1 - 0.6 * s.dim}>
 					<image href={study.href} x={-FIELD_STEP * K / 2} y={-FIELD_STEP * K / 2} width={(W + FIELD_STEP) * K} height={(H + FIELD_STEP) * K} preserveAspectRatio="none" />
 					{study.iso.map((d, i) => (
 						<path key={i} d={d} fill="none" stroke={C.glow} strokeOpacity={0.16 + i * 0.07} strokeWidth={sw(0.8)} strokeLinecap="round" />

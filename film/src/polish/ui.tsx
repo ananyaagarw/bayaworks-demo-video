@@ -141,3 +141,19 @@ export const StatusChip: React.FC<{t: number; at: number; done: number; label: s
 		</div>
 	);
 };
+
+// Cursor with a restrained press: slight dip and a hairline ring.
+export const Pointer: React.FC<{x: number; y: number; t: number; click: number; opacity?: number}> = ({x, y, t, click, opacity = 1}) => {
+	const k = Math.max(0, Math.min(1, (t - click) / 0.45));
+	const press = Math.max(0, 1 - Math.abs(t - click - 0.05) / 0.12);
+	return (
+		<div style={{position: 'absolute', left: x, top: y, opacity, pointerEvents: 'none'}}>
+			{k > 0 && k < 1 ? (
+				<div style={{position: 'absolute', left: -22 * (0.5 + k), top: -22 * (0.5 + k), width: 44 * (0.5 + k), height: 44 * (0.5 + k), borderRadius: '50%', border: `1.5px solid ${C.accent}`, opacity: 0.7 * (1 - k)}} />
+			) : null}
+			<svg width="28" height="36" viewBox="0 0 28 36" style={{display: 'block', scale: String(1 - 0.1 * press), transformOrigin: '2px 2px', filter: 'drop-shadow(0 4px 10px rgba(0,0,0,.45))'}}>
+				<path d="M2 2v26.5l7-7 6.2 11.6 4.4-2.4-6.1-11.2H23Z" fill={C.sand} stroke={C.bg} strokeWidth="1.6" strokeLinejoin="round" />
+			</svg>
+		</div>
+	);
+};

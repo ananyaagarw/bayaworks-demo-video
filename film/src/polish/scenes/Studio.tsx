@@ -79,7 +79,7 @@ export const Studio: React.FC<{dur: number}> = ({dur}) => {
 		dim: second ? 0.6 * p(t, T2.focus, T2.focus + 0.6) * (1 - p(t, T2.done + 0.4, T2.done + 1.6)) : 0,
 	};
 
-	const winIn = p(t, 0, 0.8);
+	const winIn = p(t, 0, 0.8) * (1 - p(t, dur - 0.45, dur, ease.leave));
 	const thread1Out = dur > E2 ? T2.clear : undefined;
 
 	return (
@@ -166,7 +166,7 @@ export const Studio: React.FC<{dur: number}> = ({dur}) => {
 				{/* Drawing viewport */}
 				<Rise t={t} at={0.35} dur={0.9} y={10} style={{position: 'absolute', left: 700, right: 40, top: 132, bottom: 40}}>
 					<div style={{position: 'absolute', inset: 0, borderRadius: 18, border: `1px solid ${C.rule}`, background: '#120D0A', overflow: 'hidden'}}>
-						<div style={{position: 'absolute', left: 28, right: 28, top: 70, bottom: 74, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+						<div style={{position: 'absolute', left: 0, right: 0, top: 64, bottom: 64, padding: '0 28px', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden'}}>
 							<div style={{width: '100%', aspectRatio: String(PLAN_ASPECT), scale: String(zoom), transformOrigin: `${origin.x * 100}% ${origin.y * 100}%`}}>
 								<PlanCanvas id="studio" state={plan} strokeScale={1 / mix(1, zoom, 0.6)} />
 							</div>

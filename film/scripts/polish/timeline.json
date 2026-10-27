@@ -1,0 +1,136 @@
+{
+  "duration": 100.7,
+  "scenes": [
+    {
+      "id": "opening",
+      "name": "01 · Building intelligence",
+      "dur": 9.5,
+      "from": 0
+    },
+    {
+      "id": "worksCard",
+      "name": "02 · Baya Works",
+      "dur": 4,
+      "from": 9.5
+    },
+    {
+      "id": "works",
+      "name": "03 · Works customer journey",
+      "dur": 28.7,
+      "from": 13.5
+    },
+    {
+      "id": "studioCard",
+      "name": "04 · Inside Baya Studio",
+      "dur": 5,
+      "from": 42.2
+    },
+    {
+      "id": "studio",
+      "name": "05 · Studio supervision",
+      "dur": 27,
+      "from": 47.2
+    },
+    {
+      "id": "deliveryCard",
+      "name": "06 · From design to delivery",
+      "dur": 2.5,
+      "from": 74.2
+    },
+    {
+      "id": "delivery",
+      "name": "07 · Designs ready and download",
+      "dur": 16,
+      "from": 76.7
+    },
+    {
+      "id": "ending",
+      "name": "08 · Closing",
+      "dur": 8,
+      "from": 92.7
+    }
+  ],
+  "events": {
+    "lightsOn": 6.4,
+    "worksUpload": 22.83615276003915,
+    "worksConnect": 28.12615276003915,
+    "worksAsk": 32.72615276003915,
+    "worksPrep": 39.2045148391487,
+    "studioSend1": 52.1116346737931,
+    "studioSweep": 57.2616346737931,
+    "studioSwept": 59.161634673793095,
+    "studioSend2": 66.27620872564543,
+    "studioDone2": 70.37620872564543,
+    "deliveryClick": 83.7,
+    "deliveryDone": 88.2
+  },
+  "short": {
+    "duration": 60.839999999999996,
+    "segments": [
+      {
+        "id": "opening",
+        "in": 0,
+        "out": 9.5,
+        "dur": 9.5,
+        "at": 0,
+        "filmFrom": 0
+      },
+      {
+        "id": "worksCard",
+        "in": 0,
+        "out": 3.2,
+        "dur": 3.2,
+        "at": 9.5,
+        "filmFrom": 9.5
+      },
+      {
+        "id": "works",
+        "in": 8.83615276003915,
+        "out": 18.97615276003915,
+        "dur": 1000,
+        "at": 12.7,
+        "filmFrom": 13.5
+      },
+      {
+        "id": "studioCard",
+        "in": 0,
+        "out": 3.6,
+        "dur": 3.6,
+        "at": 22.839999999999996,
+        "filmFrom": 42.2
+      },
+      {
+        "id": "studio",
+        "in": 0,
+        "out": 15,
+        "dur": 15,
+        "at": 26.439999999999998,
+        "filmFrom": 47.2
+      },
+      {
+        "id": "deliveryCard",
+        "in": 0,
+        "out": 2.5,
+        "dur": 2.5,
+        "at": 41.44,
+        "filmFrom": 74.2
+      },
+      {
+        "id": "delivery",
+        "in": 4.6,
+        "out": 15.5,
+        "dur": 15.5,
+        "at": 43.94,
+        "filmFrom": 76.7
+      },
+      {
+        "id": "ending",
+        "in": 0,
+        "out": 6,
+        "dur": 6,
+        "at": 54.839999999999996,
+        "filmFrom": 92.7
+      }
+    ]
+  }
+}

@@ -6,6 +6,8 @@ import {C} from './brand';
 import {PlanCanvas, PlanState} from './plan/PlanCanvas';
 import {Chapter} from './scenes/Chapter';
 import {Studio} from './scenes/Studio';
+import {BayaFilm, BayaFilmShort} from './Film';
+import {FILM_DURATION, SHORT_DURATION} from './timeline';
 import {Cue} from './sound';
 import {FullAnimatic} from '../v2/Animatic';
 
@@ -46,6 +48,8 @@ const BaselineAt1080: React.FC<{from: number}> = ({from}) => {
 
 export const PolishRoot = () => (
 	<>
+		<Composition id="BayaFilm" component={BayaFilm} durationInFrames={Math.round(FILM_DURATION * 30)} fps={30} width={1920} height={1080} />
+		<Composition id="BayaFilmShort" component={BayaFilmShort} durationInFrames={Math.round(SHORT_DURATION * 30)} fps={30} width={1920} height={1080} />
 		<Composition id="StudioProof" component={StudioProof} durationInFrames={600} fps={30} width={1920} height={1080} />
 		<Composition id="BaselineStudioProof" component={BaselineAt1080} durationInFrames={480} fps={24} width={1920} height={1080} defaultProps={{from: 54.5}} />
 		<Composition id="PlanTest" component={PlanTest} durationInFrames={1} fps={30} width={1920} height={1080} defaultProps={{state: {circuits: 1, power: 1, lit: 1}}} />

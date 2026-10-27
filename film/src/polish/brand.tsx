@@ -24,11 +24,11 @@ export const C = {
 export const SANS = 'Inter';
 export const MONO = 'JetBrains Mono';
 
-const fonts = [
-	loadFont({family: SANS, url: staticFile('brand/inter-variable.woff2'), weight: '100 900'}),
-	loadFont({family: MONO, url: staticFile('brand/jetbrains-mono-variable.woff2'), weight: '400 800'}),
-];
-export const fontsReady = Promise.all(fonts);
+// Fonts load only in the browser (the timeline exporter imports these modules in Node).
+if (typeof document !== 'undefined') {
+	loadFont({family: SANS, url: staticFile('brand/inter-variable.woff2'), weight: '100 900'});
+	loadFont({family: MONO, url: staticFile('brand/jetbrains-mono-variable.woff2'), weight: '400 800'});
+}
 
 // The supplied mark is a 271 × 110 raster; never display it wider than that.
 export const LOGO_NATIVE_WIDTH = 271;

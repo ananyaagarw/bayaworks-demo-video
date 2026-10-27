@@ -277,10 +277,73 @@ def score(duration, sections, accents, arp_spans, name, gain_db=-14):
     out = lp(out.T, 7000).T
     out = verb(out, 0.38)
     out = out[: int(duration * SR)]
-    fade = int(1.5 * SR)
+    fade = int(2.5 * SR)
     out[:int(0.05 * SR)] *= np.linspace(0, 1, int(0.05 * SR))[:, None]
     out[-fade:] *= np.linspace(1, 0, fade)[:, None] ** 2
     write(name, out, gain_db)
+
+
+def film_plan(tl):
+    """Harmonic plan for the full film, placed on the exported picture timeline."""
+    sc = {x['id']: x for x in tl['scenes']}
+    ev = tl['events']
+    st = lambda i: sc[i]['from']
+    end = lambda i: sc[i]['from'] + sc[i]['dur']
+    sections = [
+        (0.0, 'Bm9', 0.5), (ev['lightsOn'], 'Dadd9', 0.68),
+        (st('worksCard'), 'Gmaj9', 0.52), (st('works'), 'Dadd9', 0.64), (ev['worksUpload'], 'Gmaj9', 0.68),
+        (ev['worksConnect'], 'Em9', 0.68), (ev['worksAsk'], 'Asus2', 0.7), (ev['worksPrep'], 'Dadd9', 0.72),
+        (st('studioCard'), 'Bm9', 0.52), (st('studio'), 'Gmaj9', 0.68), (ev['studioSend1'], 'D/F#', 0.7),
+        (ev['studioSweep'], 'Asus2', 0.74), (ev['studioSwept'], 'Dadd9', 0.76), (ev['studioSend2'], 'Em9', 0.7),
+        (ev['studioDone2'], 'Dadd9', 0.74), (st('deliveryCard'), 'Gmaj9', 0.58), (st('delivery'), 'Em9', 0.64),
+        (ev['deliveryClick'], 'D/F#', 0.7), (ev['deliveryDone'], 'Dadd9', 0.8), (st('ending'), 'Dadd9', 0.66),
+    ]
+    product = [(3.4, st('worksCard') - 0.2), (st('works') + 2.3, end('works') - 0.3),
+               (st('studio') + 1.0, end('studio') - 0.4), (st('delivery') + 1.4, end('delivery') - 0.4)]
+    accents = [(ev['lightsOn'] + 0.05, 'F#5', 0.8), (ev['deliveryDone'] + 0.2, 'A5', 0.5), (st('ending') + 0.3, 'D5', 0.9)]
+    return sections, product, accents
+
+
+def arps_for(sections, spans):
+    out = []
+    for a, b in spans:
+        bounds = sorted({a, b, *[s[0] for s in sections if a < s[0] < b]})
+        for x, y in zip(bounds, bounds[1:]):
+            chord = [s for s in sections if s[0] <= x][-1][1]
+            out.append((x, y, chord))
+    return out
+
+
+def to_short(tl, sections, product, accents):
+    """Map film-time cues into the website cut via its segments."""
+    segs = tl['short']['segments']
+    def m(ft):
+        for g in segs:
+            a = g['filmFrom'] + g['in']
+            b = g['filmFrom'] + g['out']
+            if a <= ft < b:
+                return g['at'] + ft - a
+        return None
+    ss = []
+    for g in segs:
+        ft = g['filmFrom'] + g['in']
+        chord, level = [(c, l) for (t0, c, l) in sections if t0 <= ft][-1]
+        ss.append((g['at'], chord, level))
+    for t0, c, l in sections:
+        s0 = m(t0)
+        if s0 is not None and all(abs(s0 - x[0]) > 0.3 for x in ss):
+            ss.append((s0, c, l))
+    ss.sort()
+    sp = []
+    for a, b in product:
+        for g in segs:
+            fa = g['filmFrom'] + g['in']
+            fb = g['filmFrom'] + g['out']
+            lo, hi = max(a, fa), min(b, fb)
+            if hi - lo > 1.0:
+                sp.append((g['at'] + lo - fa, g['at'] + hi - fa))
+    acc = [(m(t0), n, l) for (t0, n, l) in accents if m(t0) is not None]
+    return ss, sp, acc
 
 
 if __name__ == '__main__':
@@ -288,3 +351,8 @@ if __name__ == '__main__':
     cues = json.loads((Path(__file__).parent / 'score-cues.json').read_text())
     for name, c in cues.items():
         score(c['duration'], c['sections'], c['accents'], c['arps'], f'score-{name}.wav', c.get('gain', -14))
+    tl = json.loads((Path(__file__).parent / 'timeline.json').read_text())
+    sections, product, accents = film_plan(tl)
+    score(tl['duration'], sections, accents, arps_for(sections, product), 'score-film.wav')
+    ss, sp, acc = to_short(tl, sections, product, accents)
+    score(tl['short']['duration'], ss, acc, arps_for(ss, sp), 'score-short.wav')
