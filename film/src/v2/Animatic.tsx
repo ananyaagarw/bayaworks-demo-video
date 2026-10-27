@@ -1,14 +1,15 @@
 import React from 'react';
 import {Audio} from '@remotion/media';
 import {Sequence,interpolate,staticFile,useCurrentFrame,useVideoConfig} from 'remotion';
-import {C,Frame,Logo,PROJECT,progress,Turn,typed} from './system';
+import {C,Frame,Logo,PROJECT,progress,Pointer,Turn,typed} from './system';
 import {CustomerExperience} from './CustomerWorkflow';
 import {EngineeringCanvas} from './EngineeringCanvas';
+import {Chapter,DownloadArchive,Ending} from './RequestedFinishes';
 const LocalTime=()=>{const f=useCurrentFrame();const {fps}=useVideoConfig();return f/fps;};
-const EngineeringScene:React.FC<{inside?:boolean}>=({inside=false})=>{const t=LocalTime();return <Frame>
+const EngineeringScene=()=>{const t=LocalTime();return <Frame>
  <div style={{position:'absolute',left:100,top:75}}><Logo/></div>
- <div style={{position:'absolute',left:100,top:235,fontSize:62,lineHeight:1.12,letterSpacing:-2,width:620}}>{inside?<>An engineering agent.<br/><span style={{color:C.green}}>At work.</span></>:<>Electrical.<br/>Lighting.<br/><span style={{color:C.green}}>One building.</span></>}</div>
- <div style={{position:'absolute',left:100,top:550,width:500,fontSize:28,color:C.muted,lineHeight:1.5}}>{inside?(t<6?'Geometry and firm requirements become a coordinated design.':t<12?'Layouts, connections and routes develop together.':'Checks and results stay connected to the design.'):PROJECT}</div>
+ <div style={{position:'absolute',left:100,top:235,fontSize:62,lineHeight:1.12,letterSpacing:-2,width:620}}>Better engineering.<br/><span style={{color:C.green}}>Faster delivery.</span></div>
+ <div style={{position:'absolute',left:100,top:550,width:500,fontSize:28,color:C.muted,lineHeight:1.5}}>AI-powered MEP design</div>
  <div style={{position:'absolute',left:700,top:240,width:1100,height:650,transform:`perspective(1700px) rotateX(${24-12*progress(t,0,10)}deg) rotateZ(${-12+8*progress(t,0,10)}deg)`}}><EngineeringCanvas time={t} mode={t>7?'light':'design'}/></div>
  </Frame>};
 const CustomerSection=()=>{const t=LocalTime();const mapped=interpolate(t,[0,10,26,41],[0,9,18.5,30],{extrapolateRight:'clamp'});return <CustomerExperience time={mapped}/>;};
@@ -24,23 +25,35 @@ const StudioScene=()=>{const t=LocalTime();const lighting=t<15;const instruction
  <div style={{position:'absolute',right:45,top:225,width:1035,height:605}}><EngineeringCanvas time={12} mode={t>10?'light':'design'} edit={progress(t,6,9)} electricalEdit={progress(t,21,24)}/></div>
  </div>
  </Frame>};
-const DeliveryScene=()=>{const t=LocalTime();return <Frame>
+const DELIVERABLES=[
+ ['Lighting layout','.pdf'],['Electrical layout','.pdf'],
+ ['BIM coordination model','.ifc'],['Revit model','.rvt'],
+ ['Fixture schedule','.xlsx'],['Equipment schedule','.xlsx'],
+ ['Calculation report','.pdf'],['Bill of quantities','.xlsx'],
+];
+const DeliveryScene=()=>{const t=LocalTime();const clicked=t>=9.3;const complete=t>=14.5;return <Frame>
  <div style={{position:'absolute',left:100,top:75,display:'flex',gap:40,alignItems:'center'}}><Logo/><span style={{fontSize:27}}>Baya Works</span><span style={{fontSize:23,color:C.muted,marginLeft:700}}>{PROJECT}</span></div>
  <div style={{position:'absolute',left:100,top:250}}><div style={{fontSize:75,letterSpacing:-3,color:C.green}}>Designs ready.</div><div style={{fontSize:28,color:C.muted,marginTop:25}}>Review package · Revision B</div>
- {['Lighting layout','Electrical layout','Calculation report','Fixture schedule'].map((v,i)=><div key={v} style={{fontSize:26,marginTop:23,opacity:progress(t,1+i*.6,1.6+i*.6)}}>{v} <span style={{color:C.muted,fontSize:18}}>PDF</span></div>)}
- <div style={{display:'inline-block',fontSize:26,color:C.bg,background:C.green,padding:'21px 30px',borderRadius:36,marginTop:45,scale:1-.025*Math.sin(progress(t,9,10)*Math.PI)}}>{t>10?'↓ Design package downloaded':'↓ Download Design Package'}</div>
+ <div style={{position:'absolute',left:0,top:465,width:490}}>
+ <div style={{display:'inline-flex',alignItems:'center',justifyContent:'center',fontSize:26,color:C.bg,background:C.green,width:455,height:80,borderRadius:40}}>{complete?'✓ Design package downloaded':clicked?'Preparing your package…':'↓ Download design package'}</div>
+ <div style={{marginTop:24}}><DownloadArchive time={t}/></div>
+ </div></div>
+ <div style={{position:'absolute',left:830,top:240,width:940,height:650,border:`1px solid ${C.line}`,borderRadius:18,padding:35,background:'#EDE9DF08',boxSizing:'border-box'}}><div style={{fontSize:26,marginBottom:22}}>Design package</div>
+ {DELIVERABLES.map(([name,ext],i)=><div key={name} style={{display:'flex',alignItems:'center',justifyContent:'space-between',height:61,borderBottom:i<7?`1px solid ${C.line}`:'none',opacity:progress(t,1+i*.35,1.6+i*.35)}}><span style={{fontSize:26}}>{name}</span><span style={{fontSize:22,color:C.green}}>{ext}</span></div>)}
  </div>
- <div style={{position:'absolute',left:830,top:240,width:940,height:650,border:`1px solid ${C.line}`,borderRadius:18,padding:35,background:'#EDE9DF08'}}><div style={{fontSize:26}}>Office floor · Lighting + electrical</div><div style={{height:510,marginTop:25}}><EngineeringCanvas time={15} mode="design" edit={1} electricalEdit={1}/></div></div>
+ {t>8&&t<10?<Pointer x={450-65*progress(t,8,9)} y={785-30*progress(t,8,9)} click={progress(t,9,9.5)} opacity={1-progress(t,9.5,10)}/>:null}
  </Frame>};
-const Ending=()=>{const t=LocalTime();return <Frame><div style={{position:'absolute',inset:0,display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'center',opacity:progress(t,0,1)}}><Logo width={300}/><div style={{fontSize:68,letterSpacing:-2,marginTop:55}}>Engineering, at the speed of <span style={{color:C.green}}>compute.</span></div></div></Frame>};
+const Score=()=>{const t=LocalTime();return <Audio src={staticFile('sound/full-animatic.wav')} volume={.5*(1-progress(t,112.5,114.5))}/>;};
 export const FullAnimatic=()=>{const {fps}=useVideoConfig();return <>
  <div style={{width:1920,height:1080,transform:'scale(.5)',transformOrigin:'top left'}}>
- <Sequence from={0} durationInFrames={12*fps} name="01 · Building intelligence"><EngineeringScene/></Sequence>
- <Sequence from={12*fps} durationInFrames={41*fps} name="02–04 · Works customer journey"><CustomerSection/></Sequence>
- <Sequence from={53*fps} durationInFrames={17*fps} name="05 · Engineering agent"><EngineeringScene inside/></Sequence>
- <Sequence from={70*fps} durationInFrames={27*fps} name="06 · Studio supervision"><StudioScene/></Sequence>
- <Sequence from={97*fps} durationInFrames={15*fps} name="07 · Designs ready"><DeliveryScene/></Sequence>
- <Sequence from={112*fps} durationInFrames={8*fps} name="08 · Closing"><Ending/></Sequence>
+ <Sequence from={0} durationInFrames={9.5*fps} name="01 · Building intelligence"><EngineeringScene/></Sequence>
+ <Sequence from={9.5*fps} durationInFrames={4*fps} name="02 · Baya Works"><Chapter kind="works"/></Sequence>
+ <Sequence from={13.5*fps} durationInFrames={41*fps} name="03 · Works customer journey"><CustomerSection/></Sequence>
+ <Sequence from={54.5*fps} durationInFrames={5*fps} name="04 · Inside Baya Studio"><Chapter kind="studio"/></Sequence>
+ <Sequence from={59.5*fps} durationInFrames={27*fps} name="05 · Studio supervision"><StudioScene/></Sequence>
+ <Sequence from={86.5*fps} durationInFrames={2*fps} name="06 · From design to delivery"><Chapter kind="delivery"/></Sequence>
+ <Sequence from={88.5*fps} durationInFrames={18*fps} name="07 · Designs ready and download"><DeliveryScene/></Sequence>
+ <Sequence from={106.5*fps} durationInFrames={8*fps} name="08 · Closing"><Ending/></Sequence>
  </div>
- <Audio src={staticFile('sound/full-animatic.wav')} volume={.5}/>
+ <Score/>
  </>};

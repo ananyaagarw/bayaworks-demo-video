@@ -1,0 +1,52 @@
+{
+  "composition": "FullAnimatic",
+  "durationInFrames": 2748,
+  "fps": 24,
+  "width": 960,
+  "height": 540,
+  "video": "baya-approved-full.mp4",
+  "sha256": "66b88f02476579e34f77edc41167780f7929183ed1e7e77b44957b2a4082a6a5",
+  "fullDecode": "passed",
+  "stills": [
+    {
+      "file": "01-opening.png",
+      "seconds": 7.5
+    },
+    {
+      "file": "02-works-chapter.png",
+      "seconds": 10.5
+    },
+    {
+      "file": "03-customer-upload.png",
+      "seconds": 27
+    },
+    {
+      "file": "04-company-standards.png",
+      "seconds": 52
+    },
+    {
+      "file": "05-studio-chapter.png",
+      "seconds": 56
+    },
+    {
+      "file": "06-studio-lighting.png",
+      "seconds": 71.5
+    },
+    {
+      "file": "07-delivery-chapter.png",
+      "seconds": 87.5
+    },
+    {
+      "file": "08-deliverables.png",
+      "seconds": 93
+    },
+    {
+      "file": "09-zip-downloaded.png",
+      "seconds": 103.5
+    },
+    {
+      "file": "10-ending.png",
+      "seconds": 110
+    }
+  ]
+}

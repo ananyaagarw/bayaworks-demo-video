@@ -1,0 +1,20 @@
+// Extract review stills from an MP4; this script never renders or edits a scene.
+import {execFileSync} from 'node:child_process';
+import {mkdirSync,writeFileSync,readFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import path from 'node:path';
+const video=path.resolve(process.argv[2]||'../renders/baya-approved-full.mp4');
+const output=path.resolve(process.argv[3]||'../renders/approved-review');
+const run=(cmd,args)=>execFileSync(cmd,args,{encoding:'utf8',maxBuffer:8*1024*1024});
+const metadata=JSON.parse(run('ffprobe',['-v','error','-show_streams','-show_format','-of','json',video]));
+const v=metadata.streams.find(s=>s.codec_type==='video');
+const a=metadata.streams.find(s=>s.codec_type==='audio');
+if(v?.codec_name!=='h264'||v.width!==960||v.height!==540||v.r_frame_rate!=='24/1'||Number(v.nb_frames)!==2748||a?.codec_name!=='aac'||Math.abs(Number(metadata.format.duration)-114.5)>.1)throw new Error('Export differs from the approved composition format.');
+run('ffmpeg',['-v','error','-i',video,'-f','null','-']);
+mkdirSync(output,{recursive:true});
+const shots=[['01-opening',7.5],['02-works-chapter',10.5],['03-customer-upload',27],['04-company-standards',52],['05-studio-chapter',56],['06-studio-lighting',71.5],['07-delivery-chapter',87.5],['08-deliverables',93],['09-zip-downloaded',103.5],['10-ending',110]];
+for(const [name,time] of shots)run('ffmpeg',['-hide_banner','-loglevel','error','-y','-ss',String(time),'-i',video,'-frames:v','1',path.join(output,`${name}.png`)]);
+run('ffmpeg',['-hide_banner','-loglevel','error','-y','-pattern_type','glob','-i',path.join(output,'[0-9][0-9]-*.png'),'-vf','scale=480:270,tile=2x5:padding=12:margin=12:color=0x100C0A','-frames:v','1',path.join(output,'contact-sheet.jpg')]);
+const report={composition:'FullAnimatic',durationInFrames:2748,fps:24,width:960,height:540,video:path.basename(video),sha256:createHash('sha256').update(readFileSync(video)).digest('hex'),fullDecode:'passed',stills:shots.map(([name,seconds])=>({file:`${name}.png`,seconds}))};
+writeFileSync(path.join(output,'verification.json'),JSON.stringify(report,null,2)+'\n');
+console.log(JSON.stringify(report,null,2));
