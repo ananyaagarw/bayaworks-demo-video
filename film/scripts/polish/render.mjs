@@ -12,7 +12,7 @@ const browserExecutable =
 	process.env.REMOTION_BROWSER_EXECUTABLE ||
 	['/usr/bin/chromium', '/usr/bin/google-chrome', '/usr/bin/google-chrome-stable', '/opt/pw-browsers/chromium'].find(existsSync);
 const serveUrl = await bundle({entryPoint: path.resolve('src/polish/index.ts')});
-const composition = await selectComposition({serveUrl, id, browserExecutable});
+const composition = await selectComposition({serveUrl, id, browserExecutable, timeoutInMilliseconds: 180000});
 const outputLocation = path.join(output, `${name}.mp4`);
 let last = -1;
 await renderMedia({
@@ -26,6 +26,8 @@ await renderMedia({
 	crf: Number(crf),
 	x264Preset: 'slow',
 	concurrency: Number(process.env.CONCURRENCY || 4),
+	// The opening's 3D model frames rasterise in software on CI-class machines; allow headroom.
+	timeoutInMilliseconds: 180000,
 	outputLocation,
 	onProgress: ({progress}) => {
 		const pct = Math.floor(progress * 10);
