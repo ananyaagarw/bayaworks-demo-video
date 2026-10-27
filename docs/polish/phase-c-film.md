@@ -46,7 +46,7 @@ Scene order and durations live in `film/src/polish/timeline.ts`, the single sour
 - `baya-film-poster.png` / `.jpg`: frame 264 (0:08.8), the lit model under the headline
 - `verification.json` + `review/`: format, frame count, full decode, loudness and peak checks; scene stills and a contact sheet
 
-The committed copies are in `handoff/polished/`.
+The committed copies are in `handoff/polished/` (QA: all four files 1920 × 1080, 30/1 fps, exact frame counts, full decode clean, −17.9 to −18.0 LUFS, true peak −3.0 to −3.4 dBFS; web encode SSIM 0.98–0.99 against the master).
 
 ## Reproduce
 

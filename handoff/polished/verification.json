@@ -1,0 +1,38 @@
+{
+  "baya-film-master.mp4": {
+    "frames": 3021,
+    "seconds": 100.714,
+    "bitrate_kbps": 1994,
+    "lufs": -17.9,
+    "true_peak_dbfs": -3.4,
+    "sha256": "0961ea74fdf24de01cd996dc9f79cb84a4b96e9a4f05c2df1ee4166cb36dfbb2",
+    "problems": []
+  },
+  "baya-film-web.mp4": {
+    "frames": 3021,
+    "seconds": 100.714,
+    "bitrate_kbps": 872,
+    "lufs": -18,
+    "true_peak_dbfs": -3.4,
+    "sha256": "f4d773eaec50a0281e9aa9c13d2bd975adc328be48491b8d96f53334a961dafc",
+    "problems": []
+  },
+  "baya-film-short-master.mp4": {
+    "frames": 1825,
+    "seconds": 60.842,
+    "bitrate_kbps": 2468,
+    "lufs": -17.9,
+    "true_peak_dbfs": -3,
+    "sha256": "fba7e98312f81a2dc634775cb0c2b8f804669a7c60a935cb60c9420a4762cbc5",
+    "problems": []
+  },
+  "baya-film-short-web.mp4": {
+    "frames": 1825,
+    "seconds": 60.842,
+    "bitrate_kbps": 1030,
+    "lufs": -17.9,
+    "true_peak_dbfs": -3,
+    "sha256": "b39e2be7cf0d6370f9b3c4c1135a4e0f48b047e9395cfb44c722a196b46e01bc",
+    "problems": []
+  }
+}

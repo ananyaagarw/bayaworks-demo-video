@@ -1,5 +1,9 @@
 # Baya — approved film handoff for Claude Code
 
+> **Polished film (Claude Code finishing pass).** The polished 1920 × 1080 / 30 fps film, website cut and poster are in [`handoff/polished/`](handoff/polished/):
+> [master](handoff/polished/baya-film-master.mp4?raw=true) · [web](handoff/polished/baya-film-web.mp4?raw=true) · [website cut](handoff/polished/baya-film-short-web.mp4?raw=true) · [poster](handoff/polished/baya-film-poster.jpg) · [QA report](handoff/polished/verification.json).
+> Source: [`film/src/polish/`](film/src/polish/) (separate entry point; the approved baseline below is untouched). Notes and reproduction: [`docs/polish/phase-c-film.md`](docs/polish/phase-c-film.md); critique and the approved proof: [`docs/polish/phase-b-proof.md`](docs/polish/phase-b-proof.md), [`handoff/proof/`](handoff/proof/).
+
 This branch, **`handoff/claude-polish-baseline`**, preserves the **latest user-approved full film**, including the incremental revisions approved in this conversation. It is the 1:54.5 film with centered chapter cards, company-standards wording, refined illumination, an eight-file deliverables list, retained ZIP download completion, and the logo-first ending. No scenes were changed while preparing this handoff.
 
 The `v2` directory and the original export filename are historical names. **Do not substitute the original v2 export, v3, v4, the 30-second customer composition, or the 14-second prototype for this approved film.** The committed source on this branch is the current approved implementation. Earlier commits and exports remain part of the existing history.
