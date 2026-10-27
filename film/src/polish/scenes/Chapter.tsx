@@ -14,7 +14,9 @@ export const Chapter: React.FC<{kind: Kind; dur: number}> = ({kind, dur}) => {
 	const quick = kind === 'delivery';
 	const marker = p(t, 0.05, 0.85, ease.settle) * (1 - p(t, out, out + 0.4, ease.leave));
 	return (
-		<div style={{position: 'absolute', inset: 0, color: C.sand, background: `radial-gradient(1200px 700px at 50% 52%, #1A1410 0%, ${C.bg} 70%)`}}>
+		<div style={{position: 'absolute', inset: 0, color: C.sand, background: C.bg}}>
+			{/* The background lift fades with the type, so cuts never step in brightness. */}
+			<div style={{position: 'absolute', inset: 0, background: `radial-gradient(1200px 700px at 50% 52%, #1A1410 0%, ${C.bg} 70%)`, opacity: p(t, 0, 0.6) * (1 - p(t, out, out + 0.45))}} />
 			<Rise t={t} at={0} dur={0.6} y={0} out={out} style={{position: 'absolute', left: 96, top: 72}}>
 				<Logo width={132} />
 			</Rise>

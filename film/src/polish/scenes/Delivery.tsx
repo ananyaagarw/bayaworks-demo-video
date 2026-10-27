@@ -22,8 +22,9 @@ export const Delivery: React.FC<{dur: number}> = ({dur}) => {
 	const progress = p(t, start, done, ease.drift);
 	let idx = 0;
 	return (
-		<div style={{position: 'absolute', inset: 0, background: `radial-gradient(1400px 900px at 70% 55%, #191310 0%, ${C.bg} 70%)`, color: C.sand, fontFamily: SANS}}>
-			<div style={{position: 'absolute', inset: 0, opacity: 1 - out}}>
+		<div style={{position: 'absolute', inset: 0, background: C.bg, color: C.sand, fontFamily: SANS}}>
+			<div style={{position: 'absolute', inset: 0, opacity: p(t, 0, 0.6) * (1 - out)}}>
+				<div style={{position: 'absolute', inset: 0, background: `radial-gradient(1400px 900px at 70% 55%, #191310 0%, ${C.bg} 70%)`}} />
 				{/* Header */}
 				<Rise t={t} at={0} dur={0.7} y={0} style={{position: 'absolute', left: 120, right: 120, top: 64}}>
 					<div style={{display: 'flex', alignItems: 'center', gap: 28, height: 64}}>
@@ -200,7 +201,8 @@ export const Ending: React.FC<{dur: number}> = () => {
 	const t = useSeconds();
 	const k = p(t, 0.25, 1.6, ease.settle);
 	return (
-		<div style={{position: 'absolute', inset: 0, background: `radial-gradient(1100px 700px at 50% 48%, #1A1410 0%, ${C.bg} 72%)`, color: C.sand, fontFamily: SANS}}>
+		<div style={{position: 'absolute', inset: 0, background: C.bg, color: C.sand, fontFamily: SANS}}>
+			<div style={{position: 'absolute', inset: 0, background: `radial-gradient(1100px 700px at 50% 48%, #1A1410 0%, ${C.bg} 72%)`, opacity: p(t, 0, 0.8)}} />
 			<div style={{position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
 				<div style={{opacity: k, filter: `blur(${(1 - k) * 6}px)`, scale: String(0.985 + 0.015 * k)}}>
 					<Logo width={260} />
