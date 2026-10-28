@@ -1,9 +1,10 @@
 // Render a composition from the polished film entry (src/polish/index.ts).
 // Usage: node scripts/polish/render.mjs <CompositionId> <output-name> [crf]
 //
-// Picture is rendered in chunks so that an occasional headless-Chrome stall (seen on the opening's
-// software-rasterised 3D frames) costs one retried chunk instead of the whole film. Chunks are joined
-// without re-encoding; audio is rendered once and muxed. QA checks the exact frame count afterwards.
+// Picture is rendered in short chunks, each in a freshly launched browser: on software-GL machines a
+// browser that renders many consecutive frames of the opening's 3D model can stall, while short-lived
+// browsers do not. A chunk that still fails is retried. Chunks are joined without re-encoding; audio is
+// rendered once and muxed. QA checks the exact frame count afterwards.
 import {bundle} from '@remotion/bundler';
 import {renderMedia, selectComposition} from '@remotion/renderer';
 import {execFileSync} from 'node:child_process';
@@ -19,11 +20,11 @@ mkdirSync(work, {recursive: true});
 const browserExecutable =
 	process.env.REMOTION_BROWSER_EXECUTABLE ||
 	['/usr/bin/chromium', '/usr/bin/google-chrome', '/usr/bin/google-chrome-stable', '/opt/pw-browsers/chromium'].find(existsSync);
-const CHUNK = Number(process.env.CHUNK_FRAMES || 450);
-const ATTEMPTS = 3;
+const CHUNK = Number(process.env.CHUNK_FRAMES || 30);
+const ATTEMPTS = 4;
 const serveUrl = await bundle({entryPoint: path.resolve('src/polish/index.ts')});
 const composition = await selectComposition({serveUrl, id, browserExecutable, timeoutInMilliseconds: 120000});
-const common = {serveUrl, composition, browserExecutable, concurrency: Number(process.env.CONCURRENCY || 4), timeoutInMilliseconds: 90000};
+const common = {serveUrl, composition, browserExecutable, concurrency: Number(process.env.CONCURRENCY || 4), timeoutInMilliseconds: 60000};
 
 const chunks = [];
 for (let a = 0; a < composition.durationInFrames; a += CHUNK) chunks.push([a, Math.min(a + CHUNK, composition.durationInFrames) - 1]);
@@ -32,7 +33,7 @@ for (const [i, [a, b]] of chunks.entries()) {
 	for (let attempt = 1; ; attempt++) {
 		try {
 			await renderMedia({...common, codec: 'h264', pixelFormat: 'yuv420p', crf: Number(crf), x264Preset: 'slow', muted: true, frameRange: [a, b], outputLocation: file});
-			console.log(`${id}: frames ${a}–${b} done (${Math.round(((i + 1) / chunks.length) * 100)}%)`);
+			if ((i + 1) % 10 === 0 || i === chunks.length - 1) console.log(`${id}: frames 0–${b} done (${Math.round(((i + 1) / chunks.length) * 100)}%)`);
 			break;
 		} catch (err) {
 			if (attempt >= ATTEMPTS) throw err;
