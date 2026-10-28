@@ -2,13 +2,13 @@ import React from 'react';
 import {C, Logo, SANS} from '../brand';
 import {MaskLine, Rise, ease, p, useSeconds} from '../motion';
 
-type Kind = 'works' | 'studio' | 'delivery';
+type Kind = 'works' | 'studio' | 'delivery' | 'change';
 
 const display: React.CSSProperties = {fontFamily: SANS, fontWeight: 400, letterSpacing: '-0.04em', lineHeight: 1.02, color: C.sand};
 const sub: React.CSSProperties = {fontFamily: SANS, fontWeight: 400, fontSize: 34, letterSpacing: '-0.012em', lineHeight: 1.4, color: C.sand2};
 
 // Centered chapter card. Lines rise from behind masks, hold still, then leave together.
-export const Chapter: React.FC<{kind: Kind; dur: number}> = ({kind, dur}) => {
+export const Chapter: React.FC<{kind: Kind; dur: number; revised?: boolean}> = ({kind, dur, revised = false}) => {
 	const t = useSeconds();
 	const out = dur - 0.55;
 	const quick = kind === 'delivery';
@@ -33,7 +33,13 @@ export const Chapter: React.FC<{kind: Kind; dur: number}> = ({kind, dur}) => {
 							</div>
 						</MaskLine>
 						<MaskLine t={t} at={1.0} dur={0.85} out={out + 0.08} style={{marginTop: 30}}>
-							<div style={sub}>Baya designs. Engineers direct.</div>
+							{revised ? (
+								<div style={{...sub, fontSize: 36}}>
+									<span style={{color: C.sand}}>Baya does the engineering.</span> Engineers stay in control.
+								</div>
+							) : (
+								<div style={sub}>Baya designs. Engineers direct.</div>
+							)}
 						</MaskLine>
 					</>
 				) : null}
@@ -55,6 +61,29 @@ export const Chapter: React.FC<{kind: Kind; dur: number}> = ({kind, dur}) => {
 							From design to <span style={{color: C.accent}}>delivery.</span>
 						</div>
 					</MaskLine>
+				) : null}
+				{kind === 'change' ? (
+					// Two beats in one card: revisions, then keeping track of them.
+					<div style={{position: 'relative', width: 1700, height: 230}}>
+						<div style={{position: 'absolute', inset: 0}}>
+							<MaskLine t={t} at={0.1} dur={0.9} out={1.95} outDur={0.35}>
+								<div style={{...display, fontSize: 96}}>A design change</div>
+							</MaskLine>
+							<MaskLine t={t} at={0.24} dur={0.9} out={1.99} outDur={0.35}>
+								<div style={{...display, fontSize: 96, color: C.accent}}>shouldn’t mean starting over.</div>
+							</MaskLine>
+						</div>
+						<div style={{position: 'absolute', inset: 0, paddingTop: 18}}>
+							<MaskLine t={t} at={2.2} dur={0.8} out={out} style={{marginBottom: 22}}>
+								<div style={{...sub, color: C.sand3}}>Designs change.</div>
+							</MaskLine>
+							<MaskLine t={t} at={2.36} dur={0.95} out={out + 0.04}>
+								<div style={{...display, fontSize: 92}}>
+									Keeping track <span style={{color: C.accent}}>shouldn’t be a job.</span>
+								</div>
+							</MaskLine>
+						</div>
+					</div>
 				) : null}
 				{/* Keeps the optical centre slightly above the geometric centre. */}
 				<div style={{height: 40}} />

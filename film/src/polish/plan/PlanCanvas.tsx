@@ -49,6 +49,8 @@ export type PlanState = {
 	outletCircuit?: number;
 	outletCloud?: number;
 	dim?: number; // de-emphasise everything except the active edit
+	before?: number; // the study already calculated for the original arrangement (shown ahead of a new sweep)
+	stale?: number; // that study is out of date after a requested change
 };
 
 export const VIEW = {x: -78, y: -78, w: W * K + 110, h: H * K + 104};
@@ -131,7 +133,7 @@ export const PlanCanvas: React.FC<{
 }> = ({id, state, style, strokeScale = 1}) => {
 	const s = {
 		grid: 1, walls: 1, shell: 1, labels: 1, furniture: 1, fixtures: 1, circuits: 0, power: 0, lit: 0,
-		select: 0, projector: 0, edit: 0, ghost: 0, cloud: 0, outletsAdded: 0, outletCircuit: 0, outletCloud: 0, dim: 0,
+		select: 0, projector: 0, edit: 0, ghost: 0, cloud: 0, outletsAdded: 0, outletCircuit: 0, outletCloud: 0, dim: 0, before: 0, stale: 0,
 		...state,
 	};
 	const sw = (n: number) => n * strokeScale;
@@ -142,18 +144,14 @@ export const PlanCanvas: React.FC<{
 	);
 	// The study is only recomputed for settled arrangements (before/after the edit).
 	const studyKey = s.edit >= 1 ? 1 : 0;
-	const study = useMemo(() => {
-		const pos = FIXTURES.map((f) => ({...f, ...fixturePos(f, studyKey, ease.glide)}));
-		const f = fieldFor(pos);
-		const norm = {...f, field: f.field.map((v) => v / REF) as Float32Array};
-		return {href: studyImage(f.field, f.nx, f.ny), iso: contours(norm)};
-	}, [studyKey]);
+	const study = useMemo(() => studyFor(studyKey), [studyKey]);
+	const original = useMemo(() => (s.before > 0 ? studyFor(0) : null), [s.before > 0]);
 	const {arcs, homeruns} = useMemo(() => circuitFor(editKey, ease.glide), [editKey]);
 	const sweepX = s.lit * (W * K + 160) - 80;
 	const conf = roomById(CONF);
 	const fixtureCount = FIXTURES.length;
 	const placed = (order: number) => Math.max(0, Math.min(1, (s.fixtures * (fixtureCount + 14) - order) / 14));
-	const lightOn = (x: number) => Math.max(0, Math.min(1, (sweepX - x * K + 10) / 40));
+	const lightOn = (x: number) => Math.max(s.before, Math.min(1, (sweepX - x * K + 10) / 40), 0);
 	const wallMid = (w: (typeof WALLS)[number]) => (w.x1 + w.x2) / 2 / W;
 	const fade = 1 - 0.55 * s.dim;
 	const pz = PROJECTOR_ZONE;
@@ -168,6 +166,13 @@ export const PlanCanvas: React.FC<{
 				</linearGradient>
 				<mask id={`${id}-litmask`} maskUnits="userSpaceOnUse" x={VIEW.x} y={VIEW.y} width={VIEW.w} height={VIEW.h}>
 					<rect x={VIEW.x} y={VIEW.y} width={VIEW.w} height={VIEW.h} fill={`url(#${id}-sweep)`} />
+				</mask>
+				<linearGradient id={`${id}-ahead`} gradientUnits="userSpaceOnUse" x1={sweepX - 70} x2={sweepX} y1={0} y2={0}>
+					<stop offset="0" stopColor="#000" />
+					<stop offset="1" stopColor="#fff" />
+				</linearGradient>
+				<mask id={`${id}-aheadmask`} maskUnits="userSpaceOnUse" x={VIEW.x} y={VIEW.y} width={VIEW.w} height={VIEW.h}>
+					<rect x={VIEW.x} y={VIEW.y} width={VIEW.w} height={VIEW.h} fill={`url(#${id}-ahead)`} />
 				</mask>
 				<linearGradient id={`${id}-scan`} gradientUnits="userSpaceOnUse" x1={sweepX - 90} x2={sweepX} y1={0} y2={0}>
 					<stop offset="0" stopColor={C.glow} stopOpacity="0" />
@@ -203,13 +208,17 @@ export const PlanCanvas: React.FC<{
 			{/* Floor plate */}
 			<rect x={0} y={0} width={W * K} height={H * K} fill="#16110D" opacity={s.shell} />
 
+			{/* The study already on record, ahead of any new calculation sweep */}
+			{original && s.before > 0 ? (
+				<g mask={`url(#${id}-aheadmask)`} opacity={s.before * (1 - 0.6 * s.stale) * (1 - 0.6 * s.dim)}>
+					<StudyLayer study={original} sw={sw} />
+				</g>
+			) : null}
+
 			{/* Lighting study: banded field + isolines, revealed by the calculation sweep */}
 			{s.lit > 0 ? (
 				<g mask={`url(#${id}-litmask)`} opacity={1 - 0.6 * s.dim}>
-					<image href={study.href} x={-FIELD_STEP * K / 2} y={-FIELD_STEP * K / 2} width={(W + FIELD_STEP) * K} height={(H + FIELD_STEP) * K} preserveAspectRatio="none" />
-					{study.iso.map((d, i) => (
-						<path key={i} d={d} fill="none" stroke={C.glow} strokeOpacity={0.16 + i * 0.07} strokeWidth={sw(0.8)} strokeLinecap="round" />
-					))}
+					<StudyLayer study={study} sw={sw} />
 				</g>
 			) : null}
 
@@ -425,6 +434,22 @@ export const PlanCanvas: React.FC<{
 		</svg>
 	);
 };
+
+const studyFor = (key: number) => {
+	const pos = FIXTURES.map((f) => ({...f, ...fixturePos(f, key, ease.glide)}));
+	const f = fieldFor(pos);
+	const norm = {...f, field: f.field.map((v) => v / REF) as Float32Array};
+	return {href: studyImage(f.field, f.nx, f.ny), iso: contours(norm)};
+};
+
+const StudyLayer: React.FC<{study: {href: string; iso: string[]}; sw: (n: number) => number}> = ({study, sw}) => (
+	<>
+		<image href={study.href} x={(-FIELD_STEP * K) / 2} y={(-FIELD_STEP * K) / 2} width={(W + FIELD_STEP) * K} height={(H + FIELD_STEP) * K} preserveAspectRatio="none" />
+		{study.iso.map((d, i) => (
+			<path key={i} d={d} fill="none" stroke={C.glow} strokeOpacity={0.16 + i * 0.07} strokeWidth={sw(0.8)} strokeLinecap="round" />
+		))}
+	</>
+);
 
 const Outlet: React.FC<{o: {x: number; y: number; wall: string}; k: number; sw: (n: number) => number; color: string; alpha: number}> = ({o, k, sw, color, alpha}) => {
 	if (k <= 0) return null;

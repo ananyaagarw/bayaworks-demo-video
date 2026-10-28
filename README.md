@@ -1,5 +1,7 @@
 # Baya — approved film handoff for Claude Code
 
+> **Revised film (Baya-led engineering, revisions, project history).** [`handoff/revised/`](handoff/revised/): [master](handoff/revised/baya-film-revised-master.mp4?raw=true) · [web](handoff/revised/baya-film-revised-web.mp4?raw=true) · [website cut](handoff/revised/baya-film-revised-short-web.mp4?raw=true) · [before/after of the new footage](handoff/revised/preview/revision-before-after.mp4?raw=true). Timeline, copy and reproduction: [`docs/revision/timeline.md`](docs/revision/timeline.md).
+>
 > **Polished film (Claude Code finishing pass).** The polished 1920 × 1080 / 30 fps film, website cut and poster are in [`handoff/polished/`](handoff/polished/):
 > [master](handoff/polished/baya-film-master.mp4?raw=true) · [web](handoff/polished/baya-film-web.mp4?raw=true) · [website cut](handoff/polished/baya-film-short-web.mp4?raw=true) · [poster](handoff/polished/baya-film-poster.jpg) · [QA report](handoff/polished/verification.json).
 > Source: [`film/src/polish/`](film/src/polish/) (separate entry point; the approved baseline below is untouched). Notes and reproduction: [`docs/polish/phase-c-film.md`](docs/polish/phase-c-film.md); critique and the approved proof: [`docs/polish/phase-b-proof.md`](docs/polish/phase-b-proof.md), [`handoff/proof/`](handoff/proof/).

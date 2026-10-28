@@ -6,12 +6,14 @@ import {createHash} from 'node:crypto';
 import path from 'node:path';
 
 const dir = path.resolve(process.argv[2] || '../renders/polish');
-const timeline = JSON.parse(readFileSync(path.resolve('scripts/polish/timeline.json'), 'utf8'));
+const revised = process.argv.includes('--revised');
+const timeline = JSON.parse(readFileSync(path.resolve(`scripts/polish/${revised ? 'timeline-revised' : 'timeline'}.json`), 'utf8'));
+const base = revised ? 'baya-film-revised' : 'baya-film';
 const expect = {
-	'baya-film-master.mp4': timeline.duration,
-	'baya-film-web.mp4': timeline.duration,
-	'baya-film-short-master.mp4': timeline.short.duration,
-	'baya-film-short-web.mp4': timeline.short.duration,
+	[`${base}-master.mp4`]: timeline.duration,
+	[`${base}-web.mp4`]: timeline.duration,
+	[`${base}-short-master.mp4`]: timeline.short.duration,
+	[`${base}-short-web.mp4`]: timeline.short.duration,
 };
 const report = {};
 for (const [file, seconds] of Object.entries(expect)) {
@@ -39,11 +41,11 @@ for (const [file, seconds] of Object.entries(expect)) {
 // Review stills: one per scene midpoint plus key moments, and a contact sheet.
 const review = path.join(dir, 'review');
 mkdirSync(review, {recursive: true});
-const master = path.join(dir, 'baya-film-master.mp4');
+const master = path.join(dir, `${base}-master.mp4`);
 if (existsSync(master)) {
 	const shots = timeline.scenes.map((s, i) => [`${String(i + 1).padStart(2, '0')}-${s.id}`, s.from + s.dur * 0.62]);
 	for (const [name, t] of shots) execFileSync('ffmpeg', ['-hide_banner', '-loglevel', 'error', '-y', '-ss', t.toFixed(3), '-i', master, '-frames:v', '1', path.join(review, `${name}.png`)]);
-	execFileSync('ffmpeg', ['-hide_banner', '-loglevel', 'error', '-y', '-pattern_type', 'glob', '-i', path.join(review, '[0-9][0-9]-*.png'), '-vf', 'scale=640:360,tile=2x4:padding=10:margin=10:color=0x100C0A', '-frames:v', '1', path.join(review, 'contact-sheet.jpg')]);
+	execFileSync('ffmpeg', ['-hide_banner', '-loglevel', 'error', '-y', '-pattern_type', 'glob', '-i', path.join(review, '[0-9][0-9]-*.png'), '-vf', `scale=640:360,tile=${shots.length > 8 ? '3x3' : '2x4'}:padding=10:margin=10:color=0x100C0A`, '-frames:v', '1', path.join(review, 'contact-sheet.jpg')]);
 }
 writeFileSync(path.join(dir, 'verification.json'), JSON.stringify(report, null, 2) + '\n');
 console.log(JSON.stringify(report, null, 2));

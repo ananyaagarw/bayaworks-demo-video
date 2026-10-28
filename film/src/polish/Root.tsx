@@ -6,8 +6,8 @@ import {C} from './brand';
 import {PlanCanvas, PlanState} from './plan/PlanCanvas';
 import {Chapter} from './scenes/Chapter';
 import {Studio} from './scenes/Studio';
-import {BayaFilm, BayaFilmShort} from './Film';
-import {FILM_DURATION, SHORT_DURATION} from './timeline';
+import {BayaFilm, BayaFilmRevised, BayaFilmRevisedShort, BayaFilmShort, RevisionPreview} from './Film';
+import {FILM_DURATION, FILM_REVISED_DURATION, PREVIEW_DURATION, SHORT_DURATION, SHORT_REVISED_DURATION} from './timeline';
 import {Cue} from './sound';
 import {FullAnimatic} from '../v2/Animatic';
 
@@ -48,6 +48,9 @@ const BaselineAt1080: React.FC<{from: number}> = ({from}) => {
 
 export const PolishRoot = () => (
 	<>
+		<Composition id="BayaFilmRevised" component={BayaFilmRevised} durationInFrames={Math.round(FILM_REVISED_DURATION * 30)} fps={30} width={1920} height={1080} />
+		<Composition id="BayaFilmRevisedShort" component={BayaFilmRevisedShort} durationInFrames={Math.round(SHORT_REVISED_DURATION * 30)} fps={30} width={1920} height={1080} />
+		<Composition id="RevisionPreview" component={RevisionPreview} durationInFrames={Math.round(PREVIEW_DURATION * 30)} fps={30} width={1920} height={1080} />
 		<Composition id="BayaFilm" component={BayaFilm} durationInFrames={Math.round(FILM_DURATION * 30)} fps={30} width={1920} height={1080} />
 		<Composition id="BayaFilmShort" component={BayaFilmShort} durationInFrames={Math.round(SHORT_DURATION * 30)} fps={30} width={1920} height={1080} />
 		<Composition id="StudioProof" component={StudioProof} durationInFrames={600} fps={30} width={1920} height={1080} />

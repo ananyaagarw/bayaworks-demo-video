@@ -131,7 +131,7 @@ export const StatusChip: React.FC<{t: number; at: number; done: number; label: s
 	const k = p(t, at, at + 0.45);
 	const r = p(t, done, done + 0.4);
 	return (
-		<div style={{display: 'flex', alignItems: 'center', gap: 12, padding: '9px 16px 9px 12px', borderRadius: 999, background: 'rgba(16,12,10,.82)', border: `1px solid ${C.rule}`, opacity: k, translate: `0 ${(1 - k) * 6}px`}}>
+		<div style={{display: 'flex', alignItems: 'center', gap: 12, padding: '9px 16px 9px 12px', borderRadius: 999, background: 'rgba(16,12,10,.82)', border: `1px solid ${C.rule}`, opacity: k, translate: `0 ${(1 - k) * 6}px`, whiteSpace: 'nowrap'}}>
 			<Activity t={t} start={at} done={done} size={18} />
 			<span style={{fontFamily: MONO, fontSize: 14, letterSpacing: '.1em', textTransform: 'uppercase', color: C.sand2}}>{label}</span>
 			<span style={{position: 'relative', fontFamily: MONO, fontSize: 14, letterSpacing: '.1em', textTransform: 'uppercase', color: C.accent, minWidth: 128}}>
