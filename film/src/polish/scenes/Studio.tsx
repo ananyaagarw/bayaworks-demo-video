@@ -1,4 +1,5 @@
 import React from 'react';
+import {Sequence, useVideoConfig} from 'remotion';
 import {C, Kicker, Logo, MONO, PROJECT, SANS} from '../brand';
 import {Rise, Stream, ease, mix, p, streamEnd, typed, typingEnd, typingSchedule, useSeconds} from '../motion';
 import {PlanCanvas, PLAN_ASPECT} from '../plan/PlanCanvas';
@@ -11,6 +12,9 @@ const R1a = 'Moving the selected fixtures. The affected lighting study needs upd
 const R1b = 'Layout updated. The lighting study is ready to review.';
 const I2 = 'Add outlets along the workstation wall and update the circuit layout.';
 const R2 = 'Outlets added. The circuit layout is updated.';
+// Revised film: Baya opens the session with the design it has already produced.
+const R0 = 'I’ve designed the lighting and electrical systems, placed fixtures and devices, developed the circuits, and run the engineering calculations. Your design is ready to review.';
+export const INTRO = 4.5;
 
 const T1 = (() => {
 	const type = 1.0;
@@ -48,9 +52,14 @@ export const STUDIO_TIMES = {T1, T2};
 const CONF_FOCUS = {x: 0.36, y: 0.294};
 const WALL_FOCUS = {x: 0.74, y: 0.55};
 
-export const Studio: React.FC<{dur: number}> = ({dur}) => {
-	const t = useSeconds();
-	const second = dur > E2 && t >= T2.clear;
+export const Studio: React.FC<{dur: number; intro?: boolean}> = ({dur, intro = false}) => {
+	const {fps} = useVideoConfig();
+	// tr: scene clock. t: the approved walkthrough's clock, which starts after the intro when there is one.
+	const tr = useSeconds();
+	const D = intro ? INTRO : 0;
+	const t = tr - D;
+	const walkthrough = dur - D;
+	const second = walkthrough > E2 && t >= T2.clear;
 
 	// Composer contents.
 	const draft1 = t >= T1.type && t < T1.send ? typed(I1, t, T1.type, 27, 3) : '';
@@ -77,10 +86,13 @@ export const Studio: React.FC<{dur: number}> = ({dur}) => {
 		outletCircuit: second ? p(t, T2.circuit, T2.circuit + 1.0, ease.linear) : 0,
 		outletCloud: second ? p(t, T2.cloud, T2.cloud + 0.8, ease.glide) : 0,
 		dim: second ? 0.6 * p(t, T2.focus, T2.focus + 0.6) * (1 - p(t, T2.done + 0.4, T2.done + 1.6)) : 0,
+		before: intro ? 1 : 0,
+		stale: intro ? p(t, T1.reply, T1.reply + 0.8) : 0,
 	};
 
-	const winIn = p(t, 0, 0.8) * (1 - p(t, dur - 0.45, dur, ease.leave));
-	const thread1Out = dur > E2 ? T2.clear : undefined;
+	const winIn = p(tr, 0, 0.8) * (1 - p(tr, dur - 0.45, dur, ease.leave));
+	const thread1Out = walkthrough > E2 ? T2.clear : undefined;
+	const introOut = T1.send - 0.15;
 
 	return (
 		<div style={{position: 'absolute', inset: 0, background: C.bg, color: C.sand, fontFamily: SANS}}>
@@ -110,14 +122,22 @@ export const Studio: React.FC<{dur: number}> = ({dur}) => {
 
 				{/* Conversation column */}
 				<div style={{position: 'absolute', left: 48, top: 148, width: 600, bottom: 40}}>
-					<Rise t={t} at={0.25} dur={0.8}>
+					<Rise t={tr} at={0.25} dur={0.8}>
 						<div style={{fontFamily: SANS, fontSize: 48, letterSpacing: '-0.032em', lineHeight: 1.05}}>Direct the design.</div>
 					</Rise>
 					<div style={{position: 'absolute', top: 104, left: 0, right: 0}}>
+						{/* Baya's opening message: the design is already done */}
+						{intro && t < introOut + 0.6 ? (
+							<div style={{position: 'absolute', top: 0, left: 0, right: 0, opacity: 1 - p(t, introOut, introOut + 0.35, ease.leave), translate: `0 ${-40 * p(t, introOut, introOut + 0.55, ease.glide)}px`}}>
+								<Turn t={tr} at={0.7} who="BAYA" label={<Activity t={tr} start={0.72} done={0.8} size={17} />}>
+									<Stream text={R0} t={tr} at={0.9} wps={11} />
+								</Turn>
+							</div>
+						) : null}
 						{/* Exchange 1 */}
 						<div style={{opacity: thread1Out ? 1 - p(t, thread1Out, thread1Out + 0.45, ease.leave) : 1, translate: `0 ${thread1Out ? -40 * p(t, thread1Out, thread1Out + 0.6, ease.glide) : 0}px`}}>
 							{t >= T1.send ? (
-								<Turn t={t} at={T1.send + 0.04} who="ENGINEER">
+								<Turn t={t} at={T1.send + (intro ? 0.22 : 0.04)} who="ENGINEER">
 									{I1}
 								</Turn>
 							) : null}
@@ -157,14 +177,14 @@ export const Studio: React.FC<{dur: number}> = ({dur}) => {
 						) : null}
 					</div>
 					<div style={{position: 'absolute', left: 0, bottom: 0}}>
-						<Rise t={t} at={0.45} dur={0.7} y={10}>
+						<Rise t={tr} at={0.45} dur={0.7} y={10}>
 							<Composer t={t} text={draft} focus={focus} press={draft2 || second ? T2.send : T1.send} width={600} />
 						</Rise>
 					</div>
 				</div>
 
 				{/* Drawing viewport */}
-				<Rise t={t} at={0.35} dur={0.9} y={10} style={{position: 'absolute', left: 700, right: 40, top: 132, bottom: 40}}>
+				<Rise t={tr} at={0.35} dur={0.9} y={10} style={{position: 'absolute', left: 700, right: 40, top: 132, bottom: 40}}>
 					<div style={{position: 'absolute', inset: 0, borderRadius: 18, border: `1px solid ${C.rule}`, background: '#120D0A', overflow: 'hidden'}}>
 						<div style={{position: 'absolute', left: 0, right: 0, top: 64, bottom: 64, padding: '0 28px', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden'}}>
 							<div style={{width: '100%', aspectRatio: String(PLAN_ASPECT), scale: String(zoom), transformOrigin: `${origin.x * 100}% ${origin.y * 100}%`}}>
@@ -175,32 +195,44 @@ export const Studio: React.FC<{dur: number}> = ({dur}) => {
 							<Kicker size={14}>Level 02 · Lighting + Power</Kicker>
 						</div>
 						<div style={{position: 'absolute', right: 22, top: 16}}>
-							{t >= T1.sweep - 0.1 ? <StatusChip t={t} at={T1.sweep - 0.1} done={T1.swept} label="Lighting study" busy="Recalculating" ready="Updated" /> : null}
+							{intro && t < T1.sweep ? (
+								<div style={{opacity: 1 - p(t, T1.sweep - 0.45, T1.sweep - 0.15, ease.leave)}}>
+									<StatusChip t={tr} at={0.9} done={1.0} label="Design" busy="Ready for review" ready="Ready for review" />
+								</div>
+							) : null}
+							{t >= T1.sweep - 0.1 ? (
+								<div style={{position: 'absolute', right: 0, top: 0}}>
+									<StatusChip t={t} at={T1.sweep - 0.1} done={T1.swept} label="Lighting study" busy="Recalculating" ready="Updated" />
+								</div>
+							) : null}
 						</div>
-						<Legend t={t} at={T1.swept + 0.2} />
+						<Legend t={tr} at={intro ? 1.1 : T1.swept + 0.2} />
 					</div>
 				</Rise>
 			</div>
 
 			{/* Sound cues tied to the same timeline */}
 			<Cue at={0} src="sfx/window.wav" volume={0.5} />
-			<Typing text={I1} start={T1.type} seed={3} />
-			<Cue at={T1.send} src="sfx/send.wav" volume={0.32} />
-			<Cue at={T1.select} src="sfx/select.wav" volume={0.32} />
-			<Cue at={T1.move - 0.1} src="sfx/glide.wav" volume={0.42} />
-			<Cue at={T1.cloud + 0.1} src="sfx/mark.wav" volume={0.3} />
-			<Cue at={T1.sweep} src="sfx/sweep.wav" volume={0.3} />
-			<Cue at={T1.swept} src="sfx/resolve.wav" volume={0.26} />
-			{dur > E2 ? (
-				<>
-					<Typing text={I2} start={T2.type} seed={7} />
-					<Cue at={T2.send} src="sfx/send.wav" volume={0.32} />
-					{[0, 1, 2, 3, 4, 5].map((i) => (
-						<Cue key={i} at={T2.add + (i / 8) * 1.6 * 1.33} src="sfx/place.wav" volume={0.26} />
-					))}
-					<Cue at={T2.done - 0.1} src="sfx/resolve.wav" volume={0.26} />
-				</>
-			) : null}
+			{intro ? <Cue at={0.72} src="sfx/resolve.wav" volume={0.16} /> : null}
+			<Sequence from={Math.round(D * fps)} layout="none" name="Walkthrough cues">
+				<Typing text={I1} start={T1.type} seed={3} />
+				<Cue at={T1.send} src="sfx/send.wav" volume={0.32} />
+				<Cue at={T1.select} src="sfx/select.wav" volume={0.32} />
+				<Cue at={T1.move - 0.1} src="sfx/glide.wav" volume={0.42} />
+				<Cue at={T1.cloud + 0.1} src="sfx/mark.wav" volume={0.3} />
+				<Cue at={T1.sweep} src="sfx/sweep.wav" volume={0.3} />
+				<Cue at={T1.swept} src="sfx/resolve.wav" volume={0.26} />
+				{walkthrough > E2 ? (
+					<>
+						<Typing text={I2} start={T2.type} seed={7} />
+						<Cue at={T2.send} src="sfx/send.wav" volume={0.32} />
+						{[0, 1, 2, 3, 4, 5].map((i) => (
+							<Cue key={i} at={T2.add + (i / 8) * 1.6 * 1.33} src="sfx/place.wav" volume={0.26} />
+						))}
+						<Cue at={T2.done - 0.1} src="sfx/resolve.wav" volume={0.26} />
+					</>
+				) : null}
+			</Sequence>
 		</div>
 	);
 };

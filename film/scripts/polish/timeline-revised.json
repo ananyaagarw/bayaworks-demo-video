@@ -1,0 +1,212 @@
+{
+  "duration": 114.9,
+  "scenes": [
+    {
+      "id": "opening",
+      "name": "01 · Building intelligence",
+      "dur": 9.5,
+      "from": 0
+    },
+    {
+      "id": "worksCard",
+      "name": "02 · Baya Works",
+      "dur": 4,
+      "from": 9.5
+    },
+    {
+      "id": "works",
+      "name": "03 · Works customer journey",
+      "dur": 28.7,
+      "from": 13.5
+    },
+    {
+      "id": "studioCard",
+      "name": "04 · Inside Baya Studio",
+      "dur": 5,
+      "from": 42.2
+    },
+    {
+      "id": "studio",
+      "name": "05 · Studio: Baya’s design, engineer directs",
+      "dur": 31.5,
+      "from": 47.2
+    },
+    {
+      "id": "revisionCard",
+      "name": "06 · Revisions and keeping track",
+      "dur": 4.4,
+      "from": 78.7
+    },
+    {
+      "id": "history",
+      "name": "07 · Project history",
+      "dur": 7.8,
+      "from": 83.10000000000001
+    },
+    {
+      "id": "delivery",
+      "name": "08 · Designs ready and download",
+      "dur": 16,
+      "from": 90.9
+    },
+    {
+      "id": "ending",
+      "name": "09 · Closing",
+      "dur": 8,
+      "from": 106.9
+    }
+  ],
+  "events": {
+    "lightsOn": 6.4,
+    "worksUpload": 22.83615276003915,
+    "worksConnect": 28.12615276003915,
+    "worksAsk": 32.72615276003915,
+    "worksPrep": 39.2045148391487,
+    "studioIntro": 47.900000000000006,
+    "studioSend1": 56.6116346737931,
+    "studioSweep": 61.7616346737931,
+    "studioSwept": 63.661634673793095,
+    "studioSend2": 70.77620872564543,
+    "studioDone2": 74.87620872564543,
+    "historyInsert": 85.00000000000001,
+    "historyApprove": 87.80000000000001,
+    "deliveryClick": 97.9,
+    "deliveryDone": 102.4
+  },
+  "short": {
+    "duration": 75.24,
+    "segments": [
+      {
+        "id": "opening",
+        "in": 0,
+        "out": 9.5,
+        "dur": 9.5,
+        "at": 0,
+        "filmFrom": 0
+      },
+      {
+        "id": "worksCard",
+        "in": 0,
+        "out": 3.2,
+        "dur": 3.2,
+        "at": 9.5,
+        "filmFrom": 9.5
+      },
+      {
+        "id": "works",
+        "in": 8.83615276003915,
+        "out": 18.97615276003915,
+        "dur": 1000,
+        "at": 12.7,
+        "filmFrom": 13.5
+      },
+      {
+        "id": "studioCard",
+        "in": 0,
+        "out": 3.8,
+        "dur": 3.8,
+        "at": 22.839999999999996,
+        "filmFrom": 42.2
+      },
+      {
+        "id": "studio",
+        "in": 0,
+        "out": 19.5,
+        "dur": 19.5,
+        "at": 26.639999999999997,
+        "filmFrom": 47.2
+      },
+      {
+        "id": "revisionCard",
+        "in": 0,
+        "out": 4.4,
+        "dur": 4.4,
+        "at": 46.14,
+        "filmFrom": 78.7
+      },
+      {
+        "id": "history",
+        "in": 0,
+        "out": 7.8,
+        "dur": 7.8,
+        "at": 50.54,
+        "filmFrom": 83.10000000000001
+      },
+      {
+        "id": "delivery",
+        "in": 4.6,
+        "out": 15.5,
+        "dur": 15.5,
+        "at": 58.339999999999996,
+        "filmFrom": 90.9
+      },
+      {
+        "id": "ending",
+        "in": 0,
+        "out": 6,
+        "dur": 6,
+        "at": 69.24,
+        "filmFrom": 106.9
+      }
+    ]
+  },
+  "preview": {
+    "duration": 33.599999999999994,
+    "segments": [
+      {
+        "id": "studioCard",
+        "in": 0,
+        "out": 5,
+        "dur": 5,
+        "at": 0,
+        "filmFrom": 42.2,
+        "key": "studioCard-0"
+      },
+      {
+        "id": "studio",
+        "in": 0,
+        "out": 10.7,
+        "dur": 31.5,
+        "at": 5,
+        "filmFrom": 47.2,
+        "key": "studio-1"
+      },
+      {
+        "id": "studio",
+        "in": 29.3,
+        "out": 31.5,
+        "dur": 31.5,
+        "at": 15.7,
+        "filmFrom": 47.2,
+        "key": "studio-2"
+      },
+      {
+        "id": "revisionCard",
+        "in": 0,
+        "out": 4.4,
+        "dur": 4.4,
+        "at": 17.9,
+        "filmFrom": 78.7,
+        "key": "revisionCard-3"
+      },
+      {
+        "id": "history",
+        "in": 0,
+        "out": 7.8,
+        "dur": 7.8,
+        "at": 22.299999999999997,
+        "filmFrom": 83.10000000000001,
+        "key": "history-4"
+      },
+      {
+        "id": "delivery",
+        "in": 0,
+        "out": 3.5,
+        "dur": 16,
+        "at": 30.099999999999998,
+        "filmFrom": 90.9,
+        "key": "delivery-5"
+      }
+    ]
+  }
+}

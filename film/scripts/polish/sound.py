@@ -304,6 +304,32 @@ def film_plan(tl):
     return sections, product, accents
 
 
+def revised_plan(tl):
+    """Harmonic plan for the revised film (Studio intro, bridge card, project history)."""
+    sc = {x['id']: x for x in tl['scenes']}
+    ev = tl['events']
+    st = lambda i: sc[i]['from']
+    end = lambda i: sc[i]['from'] + sc[i]['dur']
+    sections = [
+        (0.0, 'Bm9', 0.5), (ev['lightsOn'], 'Dadd9', 0.68),
+        (st('worksCard'), 'Gmaj9', 0.52), (st('works'), 'Dadd9', 0.64), (ev['worksUpload'], 'Gmaj9', 0.68),
+        (ev['worksConnect'], 'Em9', 0.68), (ev['worksAsk'], 'Asus2', 0.7), (ev['worksPrep'], 'Dadd9', 0.72),
+        (st('studioCard'), 'Bm9', 0.52), (st('studio'), 'Gmaj9', 0.66), (ev['studioIntro'], 'Dadd9', 0.7),
+        (ev['studioSend1'], 'D/F#', 0.7), (ev['studioSweep'], 'Asus2', 0.74), (ev['studioSwept'], 'Dadd9', 0.76),
+        (ev['studioSend2'], 'Em9', 0.7), (ev['studioDone2'], 'Dadd9', 0.74),
+        (st('revisionCard'), 'Bm9', 0.52), (st('revisionCard') + 2.2, 'Em9', 0.54),
+        (st('history'), 'Gmaj9', 0.64), (ev['historyInsert'], 'D/F#', 0.68), (ev['historyApprove'], 'Dadd9', 0.74),
+        (st('delivery'), 'Em9', 0.64), (ev['deliveryClick'], 'D/F#', 0.7), (ev['deliveryDone'], 'Dadd9', 0.8),
+        (st('ending'), 'Dadd9', 0.66),
+    ]
+    product = [(3.4, st('worksCard') - 0.2), (st('works') + 2.3, end('works') - 0.3),
+               (st('studio') + 1.0, end('studio') - 0.4), (st('history') + 0.8, end('history') - 0.3),
+               (st('delivery') + 1.4, end('delivery') - 0.4)]
+    accents = [(ev['lightsOn'] + 0.05, 'F#5', 0.8), (ev['historyApprove'] + 0.05, 'F#5', 0.45),
+               (ev['deliveryDone'] + 0.2, 'A5', 0.5), (st('ending') + 0.3, 'D5', 0.9)]
+    return sections, product, accents
+
+
 def arps_for(sections, spans):
     out = []
     for a, b in spans:
@@ -356,3 +382,9 @@ if __name__ == '__main__':
     score(tl['duration'], sections, accents, arps_for(sections, product), 'score-film.wav')
     ss, sp, acc = to_short(tl, sections, product, accents)
     score(tl['short']['duration'], ss, acc, arps_for(ss, sp), 'score-short.wav')
+    rv = json.loads((Path(__file__).parent / 'timeline-revised.json').read_text())
+    sections, product, accents = revised_plan(rv)
+    score(rv['duration'], sections, accents, arps_for(sections, product), 'score-revised.wav')
+    for key, name in (('short', 'score-revised-short.wav'), ('preview', 'score-revised-preview.wav')):
+        ss, sp, acc = to_short({'short': rv[key]}, sections, product, accents)
+        score(rv[key]['duration'], ss, acc, arps_for(ss, sp), name)

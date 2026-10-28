@@ -37,7 +37,7 @@ There are no percentages, durations, lux values or certifications; the counts sh
 
 The bridge card gets a softer version of the chapter swell (pad only, no arpeggio). In History: entry ticks, a glide as Revision B inserts, a resolve chime on approval, and a click on Open design package. The score's harmonic plan follows the new scenes, generated from the exported timeline as before.
 
-## Website cut (`BayaFilmRevisedShort`, about 71 s)
+## Website cut (`BayaFilmRevisedShort`, 75.2 s)
 
 Opening → Baya Works card → uploads/context → Studio card → Studio intro and lighting change → Project History → Designs ready → logo.
 
